@@ -1,0 +1,21 @@
+.typetest-container{
+  max-width: 400px;
+  margin: 0 auto;
+  .message{
+    height: 200px;
+    overflow: scroll;
+
+    padding: 0 6px;
+  }
+  .input{
+    margin-top: 20px;
+    border: 1px solid bisque;
+
+    padding: 10px 5px;
+    border-radius: 2px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

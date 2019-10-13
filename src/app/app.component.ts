@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
-import {State, TypeTest} from './reducers';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
+import {TypeTestState} from './reducers/typetest.reducer';
+import {State} from './reducers';
+import {userInput} from './actions/typetest.actions';
 
 @Component({
     selector: 'app-root',
@@ -9,16 +11,13 @@ import {Observable} from 'rxjs';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    title = 'typster-ngrx';
-    typetest$: Observable<TypeTest>;
+    typetest$: Observable<TypeTestState>;
 
     constructor(private store: Store<State>) {
         this.typetest$ = this.store.select('typetest');
     }
 
-    keypress($event) {
-
-        // this.store.dispatch()
-
+    userInput(userMessage) {
+        this.store.dispatch(userInput({userMessage}));
     }
 }
