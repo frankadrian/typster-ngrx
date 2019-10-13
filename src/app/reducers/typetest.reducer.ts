@@ -4,8 +4,19 @@ import * as TypeTestActions from '../actions/typetest.actions';
 
 const randomWords = require('random-words');
 
+export interface Letter {
+    letter: string;
+    isValid: boolean;
+}
+
+export interface Word {
+    letters: Letter[];
+    isActive: boolean;
+    isPast: boolean;
+}
+
 export interface TypeTestState {
-    message: string;
+    message: Word[];
     userMessage: string;
     testStarted: boolean;
     testFinished: boolean;
@@ -13,25 +24,59 @@ export interface TypeTestState {
     finishedAt: Date;
 }
 
+const initialRandomWords = randomWords({exactly: 100});
+
+function generateMessage(words): Word[] {
+    const wordsOb = [];
+    words.forEach(word => {
+        const wordOb: Word = {isActive: false, letters: [], isPast: false};
+        word.split('').forEach(letter => {
+            const letterOb: Letter = {
+                letter,
+                isValid: false
+            };
+            wordOb.letters.push(letterOb);
+        });
+        wordsOb.push(wordOb);
+    });
+
+    return wordsOb;
+
+}
+
 export const initalTypeTestState: TypeTestState = {
     testStarted: false,
     testFinished: false,
     startedAt: undefined,
     finishedAt: undefined,
-    message: randomWords({exactly: 100, join: ' '}),
+    message: generateMessage(initialRandomWords),
     userMessage: ''
 };
-
 
 const typetestReducer = createReducer(
     initalTypeTestState,
     on(TypeTestActions.userInput, (state, {userMessage}) => {
+        const noOfWords = userMessage.split(' ').length;
+
+        // set all words to inactive
+        state.message.map((word, index) => {
+                word.isActive = false;
+                word.isPast = false;
+                if (index < noOfWords - 1) {
+                    word.isPast = true;
+                }
+            }
+        );
+
+        // set only current word to active
+        state.message[noOfWords - 1].isActive = true;
+
         return Object.assign({}, state, {userMessage});
     }),
     on(TypeTestActions.startTest, state => {
         return Object.assign({}, state, {startedAt: new Date(), testStarted: true});
     }),
-    on(TypeTestActions.finishTest, state => {
+    on(TypeTestActions.stopTest, state => {
         return Object.assign({}, state, {finishedAt: new Date(), testFinished: true});
     })
 );
