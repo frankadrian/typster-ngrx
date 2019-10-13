@@ -56,15 +56,16 @@ export const initalTypeTestState: TypeTestState = {
 const typetestReducer = createReducer(
     initalTypeTestState,
     on(TypeTestActions.userInput, (state, {userMessage}) => {
+        const endsOnSpace = new RegExp(/\s.$/);
+        const onNewWorldAlready = endsOnSpace.test(userMessage) ? 1 : 0;
         const noOfWords = userMessage.split(' ').length;
+        console.log('endsOnSpace', endsOnSpace)
+        console.log('userMessage', userMessage)
 
-        // set all words to inactive
         state.message.map((word, index) => {
+                // set all words to inactive
                 word.isActive = false;
-                word.isPast = false;
-                if (index < noOfWords - 1) {
-                    word.isPast = true;
-                }
+                word.isPast = index < noOfWords - 1;
             }
         );
 
