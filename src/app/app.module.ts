@@ -9,11 +9,13 @@ import {FormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule} from '@angular/material';
 import { TypeTestComponent } from './type-test/type-test.component';
+import { TypeTestResultComponent } from './type-test-result/type-test-result.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TypeTestComponent
+    TypeTestComponent,
+    TypeTestResultComponent
   ],
   imports: [
     BrowserModule,
