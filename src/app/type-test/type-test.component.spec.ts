@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TypeTestComponent } from './type-test.component';
-import {AppComponent} from '../app.component';
 import {RouterTestingModule} from '@angular/router/testing';
+import {StoreModule} from '@ngrx/store';
+import {metaReducers, reducers} from '../reducers';
 
 describe('TypeTestComponent', () => {
   let component: TypeTestComponent;
@@ -11,7 +12,8 @@ describe('TypeTestComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        StoreModule.forRoot(reducers, { metaReducers }),
       ],
 
       declarations: [ TypeTestComponent ]
@@ -30,7 +32,6 @@ describe('TypeTestComponent', () => {
   });
 
   it(`should have typetest$ Observable`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app.typetest$).toBeTruthy();
   });

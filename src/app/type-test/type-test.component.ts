@@ -20,7 +20,7 @@ export class TypeTestComponent implements OnDestroy {
 
   private timer: Subscription;
 
-  constructor(private store: Store<State>, public dialog: MatDialog) {
+  constructor(private store: Store<State>) {
     this.typetest$ = this.store.select('typetest');
     this.typetest$.subscribe(val => {
       this.typetestVal = val;

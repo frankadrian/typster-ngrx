@@ -15,6 +15,11 @@ export interface Word {
     isPast: boolean;
 }
 
+export interface Result {
+    wpm: number;
+    accuracy: number;
+}
+
 export interface TypeTestState {
     message: Word[];
     userMessage: string;
@@ -22,6 +27,7 @@ export interface TypeTestState {
     testFinished: boolean;
     startedAt: Date;
     finishedAt: Date;
+    result: Result;
 }
 
 const initialRandomWords = randomWords({exactly: 100});
@@ -50,8 +56,23 @@ export const initalTypeTestState: TypeTestState = {
     startedAt: undefined,
     finishedAt: undefined,
     message: generateMessage(initialRandomWords),
-    userMessage: ''
+    userMessage: '',
+    result: new class implements Result {
+        wpm = 0;
+        accuracy = 100;
+    }
 };
+
+function calculateWPM(state, noOfWords) {
+    const now = new Date();
+    const seconds = (now.getTime() - state.startedAt.getTime()) / 1000;
+
+    if (noOfWords > 0) {
+        // calculate wpm
+        state.result.wpm = noOfWords / seconds * 60;
+    }
+    return state;
+}
 
 const typetestReducer = createReducer(
     initalTypeTestState,
@@ -59,8 +80,7 @@ const typetestReducer = createReducer(
         const endsOnSpace = new RegExp(/\s.$/);
         const onNewWorldAlready = endsOnSpace.test(userMessage) ? 1 : 0;
         const noOfWords = userMessage.split(' ').length;
-        console.log('endsOnSpace', endsOnSpace)
-        console.log('userMessage', userMessage)
+        console.log('noOfWords', noOfWords);
 
         state.message.map((word, index) => {
                 // set all words to inactive
@@ -71,6 +91,8 @@ const typetestReducer = createReducer(
 
         // set only current word to active
         state.message[noOfWords - 1].isActive = true;
+
+        state = calculateWPM(state, noOfWords);
 
         return Object.assign({}, state, {userMessage});
     }),
