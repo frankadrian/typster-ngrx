@@ -1,0 +1,23 @@
+
+<div class="typetest-container">
+
+    <div class="message">
+        <span class="word"
+              [ngClass]="{isActive: word.isActive, isPast: word.isPast }"
+              *ngFor="let word of (typetest$|async).message"><span class="letter"
+                                                                   *ngFor="let letter of word.letters">{{letter.letter}}</span><span>&nbsp;</span></span>
+
+    </div>
+
+
+    <div class="input" contenteditable="true"
+         (input)="userInput($event)"
+         (focus)="focus($event)">Start typing here to begin the test
+    </div>
+
+    <div class="time">Time: {{subscribeTimer}}</div>
+</div>
+
+
+<button (click)="stopTest()">stop</button>
+

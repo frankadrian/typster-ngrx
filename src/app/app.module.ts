@@ -7,17 +7,21 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import {FormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule} from '@angular/material';
+import { TypeTestComponent } from './type-test/type-test.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TypeTestComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
       FormsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

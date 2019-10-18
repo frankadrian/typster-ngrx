@@ -1,0 +1,39 @@
+.typetest-container {
+  max-width: 400px;
+  margin: 0 auto;
+
+  .message {
+    height: 200px;
+    overflow: scroll;
+    word-break: break-word;
+    padding: 0 6px;
+
+    .word {
+      float: left;
+
+      &.isActive {
+        color: chocolate;
+      }
+
+      &.isPast {
+        color: grey;
+      }
+    }
+  }
+
+  .input {
+    margin-top: 20px;
+    border: 1px solid bisque;
+
+    padding: 10px 5px;
+    border-radius: 2px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .time {
+    margin-top: 20px;
+  }
+}
