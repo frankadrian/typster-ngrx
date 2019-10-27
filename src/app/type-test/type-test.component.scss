@@ -14,9 +14,13 @@
       &.isActive {
         color: chocolate;
       }
-
-      &.isPast {
-        color: grey;
+      .letter {
+        &.isValid {
+          color: #0f8000;
+        }
+        &.isInvalid {
+          color: #ff1600;
+        }
       }
     }
   }
