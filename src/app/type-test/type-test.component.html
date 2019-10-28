@@ -4,9 +4,9 @@
     <div class="message">
         <span class="word"
               [ngClass]="{isActive: word.isActive }"
-              *ngFor="let word of (typetest$|async).message"><span class="letter"
-                                                                   [ngClass]="{isValid: letter.isValid, isInvalid: !letter.isValid && word.isPast}"
-                                                                   *ngFor="let letter of word.letters">{{letter.letter}}</span><span>&nbsp;</span></span>
+              *ngFor="let word of typetest.message"><span class="letter"
+                                                          [ngClass]="{isValid: letter.isValid, isInvalid: !letter.isValid && word.isPast}"
+                                                          *ngFor="let letter of word.letters">{{letter.letter}}</span><span>&nbsp;</span></span>
 
     </div>
 
@@ -18,8 +18,8 @@
 
     <div class="spacer"></div>
     <div class="time">Time: {{subscribeTimer}}</div>
-    <div>Accuracy: {{typetestVal.result.accuracy}}</div>
-    <div>WPM: {{typetestVal.result.wpm}}</div>
+    <div>Accuracy: {{typetest.result.accuracy}}</div>
+    <div>WPM: {{typetest.result.wpm}}</div>
 </div>
 
 

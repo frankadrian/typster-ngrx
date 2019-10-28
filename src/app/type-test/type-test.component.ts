@@ -1,41 +1,37 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable, Subscription, timer} from 'rxjs';
+import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
+import {Subscription, timer} from 'rxjs';
 import {TypeTestState} from '../reducers/typetest.reducer';
 import {Store} from '@ngrx/store';
 import {State} from '../reducers';
-import {MatDialog} from '@angular/material';
 import {startTest, stopTest, userInput} from '../actions/typetest.actions';
 
 @Component({
   selector: 'app-type-test',
   templateUrl: './type-test.component.html',
-  styleUrls: ['./type-test.component.scss']
+  styleUrls: ['./type-test.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TypeTestComponent implements OnDestroy {
 
-  typetest$: Observable<TypeTestState>;
-  typetestVal: TypeTestState;
+  private typetestSubscription: Subscription;
+  typetest: TypeTestState;
   subscribeTimer = 60;
   private timeLeft = 59;
 
   private timer: Subscription;
 
   constructor(private store: Store<State>) {
-    this.typetest$ = this.store.select('typetest');
-    this.typetest$.subscribe(val => {
-      this.typetestVal = val;
-      console.log('val', val);
-    });
+    this.typetestSubscription = this.store.select('typetest')
+      .subscribe(typetest => this.typetest = typetest);
   }
 
   userInput($event) {
     const userMessage = $event.target.textContent;
-    console.log('userinput');
-    if (!this.typetestVal.testStarted) {
+    if (!this.typetest.testStarted) {
       this.startTest();
     }
 
-    if (!this.typetestVal.testFinished) {
+    if (!this.typetest.testFinished) {
       this.store.dispatch(userInput({userMessage}));
     } else {
       console.log('preventing');
@@ -52,6 +48,8 @@ export class TypeTestComponent implements OnDestroy {
 
       if (this.subscribeTimer === 0) {
         this.stopTest();
+        // write test results to firebase
+
       }
     });
   }
@@ -64,7 +62,7 @@ export class TypeTestComponent implements OnDestroy {
   }
 
   focus($event) {
-    if (!this.typetestVal.testStarted) {
+    if (!this.typetest.testStarted) {
       $event.target.textContent = '';
     }
   }
@@ -77,6 +75,7 @@ export class TypeTestComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.timer.unsubscribe();
+    this.typetestSubscription.unsubscribe();
   }
 
 }
