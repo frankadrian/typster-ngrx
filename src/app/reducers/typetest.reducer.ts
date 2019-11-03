@@ -76,7 +76,7 @@ function calculateWPM(state: TypeTestState, noOfWords) {
 }
 
 function calculateAccuracy(state: TypeTestState, noOfWords) {
-  const validWords = state.message.filter(word => word.isValid && word.isPast).length;
+  const validWords = state.message.filter(word => word.isValid).length;
 
   state.result.accuracy = (validWords / noOfWords);
 
@@ -115,12 +115,14 @@ const typetestReducer = createReducer(
     state.message[noOfWords - 1].isActive = true;
 
     if (noOfWords > 0) {
-      state = calculateWPM(state, noOfWords);
-      state = calculateAccuracy(state, noOfWords);
 
       userMessageArray.map((word, index) => {
         state.message[index].isValid = compareWords(state.message[index], word);
       });
+
+      state = calculateWPM(state, noOfWords);
+      state = calculateAccuracy(state, noOfWords);
+
     }
     return Object.assign({}, state, {userMessage});
   }),

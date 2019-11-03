@@ -1,9 +1,11 @@
 import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import {Subscription, timer} from 'rxjs';
-import {TypeTestState} from '../reducers/typetest.reducer';
+import {Result, TypeTestState} from '../reducers/typetest.reducer';
 import {Store} from '@ngrx/store';
 import {State} from '../reducers';
 import {startTest, stopTest, userInput} from '../actions/typetest.actions';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-type-test',
@@ -15,12 +17,14 @@ export class TypeTestComponent implements OnDestroy {
 
   private typetestSubscription: Subscription;
   typetest: TypeTestState;
-  subscribeTimer = 60;
-  private timeLeft = 59;
+  subscribeTimer = 10;
+  private timeLeft = this.subscribeTimer - 1;
 
   private timer: Subscription;
 
-  constructor(private store: Store<State>) {
+  constructor(private store: Store<State>,
+              private db: AngularFirestore,
+              private router: Router) {
     this.typetestSubscription = this.store.select('typetest')
       .subscribe(typetest => this.typetest = typetest);
   }
@@ -49,7 +53,17 @@ export class TypeTestComponent implements OnDestroy {
       if (this.subscribeTimer === 0) {
         this.stopTest();
         // write test results to firebase
-
+        console.log('this.typetest.result', this.typetest.result);
+        this.db.collection<Result>('results')
+          .add(
+            {
+              wpm: this.typetest.result.wpm,
+              accuracy: this.typetest.result.accuracy
+            })
+          .then(res => {
+            console.log('res', res);
+            this.router.navigate(['result', res.id]);
+          });
       }
     });
   }
