@@ -3,18 +3,18 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
 import {first, map} from 'rxjs/operators';
-import {Result} from '../reducers/typetest.reducer';
+import {TypeTestState} from '../reducers/typetest.reducer';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TypetestResultResolverService implements Resolve<Result> {
+export class TypetestResultResolverService implements Resolve<TypeTestState> {
   constructor(private db: AngularFirestore) {
   }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Result> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<TypeTestState> {
     const id = route.paramMap.get('typetest');
-    return this.db.doc<Result>('results/' + id)
+    return this.db.doc<TypeTestState>('results/' + id)
       .valueChanges()
       .pipe(map(res => {
         return res;

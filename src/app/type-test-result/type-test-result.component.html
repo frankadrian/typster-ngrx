@@ -1,8 +1,16 @@
-<p>type-test-result works!</p>
-
-
 <h1>Your Results:</h1>
 
-<p>Accuracy: {{typetestResults.accuracy | percent}}</p>
-<p>Words per minute: {{typetestResults.wpm}}</p>
+<p>Accuracy: {{typetestResults.result.accuracy | percent}}</p>
+<p>Words per minute: {{typetestResults.result.wpm}}</p>
+
+
+<p>Your typed message:</p>
+<p>{{typetestResults.userMessage}}</p>
+
+
+
+
+<p>template message:</p>
+<p>{{typetestResults.initialMessage}}</p>
+
 

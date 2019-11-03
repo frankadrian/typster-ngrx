@@ -22,7 +22,7 @@ export interface Result {
 }
 
 export interface TypeTestState {
-  message: Word[];
+  message?: Word[];
   userMessage: string;
   initialMessage: string;
   testStarted: boolean;

@@ -54,25 +54,32 @@ export class TypeTestComponent implements OnDestroy {
         this.stopTest();
         // write test results to firebase
         console.log('this.typetest.result', this.typetest.result);
-        this.db.collection<Result>('results')
-          .add(
-            {
-              wpm: this.typetest.result.wpm,
-              accuracy: this.typetest.result.accuracy
-            })
-          .then(res => {
-            console.log('res', res);
-            this.router.navigate(['result', res.id]);
-          });
+        this.saveTypetest();
       }
     });
+  }
+
+  private saveTypetest() {
+    this.db.collection<TypeTestState>('results')
+      .add(
+        {
+          userMessage: this.typetest.userMessage,
+          initialMessage: this.typetest.initialMessage,
+          testStarted: this.typetest.testStarted,
+          testFinished: this.typetest.testFinished,
+          startedAt: this.typetest.startedAt,
+          finishedAt: this.typetest.finishedAt,
+          result: {...this.typetest.result}
+        })
+      .then(res => {
+        console.log('res', res);
+        this.router.navigate(['result', res.id]);
+      });
   }
 
   stopTest() {
     this.store.dispatch(stopTest());
     this.timer.unsubscribe();
-
-
   }
 
   focus($event) {
@@ -84,7 +91,6 @@ export class TypeTestComponent implements OnDestroy {
   startTest() {
     this.oberserableTimer();
     this.store.dispatch(startTest());
-
   }
 
   ngOnDestroy(): void {
