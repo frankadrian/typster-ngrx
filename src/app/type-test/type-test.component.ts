@@ -1,11 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import {Subscription, timer} from 'rxjs';
-import {Result, TypeTestState} from '../reducers/typetest.reducer';
+import {TypeTestState} from '../reducers/typetest.reducer';
 import {Store} from '@ngrx/store';
 import {State} from '../reducers';
 import {startTest, stopTest, userInput} from '../actions/typetest.actions';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-type-test',
@@ -15,17 +13,15 @@ import {Router} from '@angular/router';
 })
 export class TypeTestComponent implements OnDestroy {
 
-  private typetestSubscription: Subscription;
   typetest: TypeTestState;
   subscribeTimer = 10;
+  private typetestSubscription: Subscription;
   private timeLeft = this.subscribeTimer - 1;
 
   private timer: Subscription;
 
-  constructor(private store: Store<State>,
-              private db: AngularFirestore,
-              private router: Router) {
-    this.typetestSubscription = this.store.select('typetest')
+  constructor(private store: Store<State>) {
+      this.typetestSubscription = this.store.select('typetest')
       .subscribe(typetest => this.typetest = typetest);
   }
 
@@ -52,29 +48,8 @@ export class TypeTestComponent implements OnDestroy {
 
       if (this.subscribeTimer === 0) {
         this.stopTest();
-        // write test results to firebase
-        console.log('this.typetest.result', this.typetest.result);
-        this.saveTypetest();
       }
     });
-  }
-
-  private saveTypetest() {
-    this.db.collection<TypeTestState>('results')
-      .add(
-        {
-          userMessage: this.typetest.userMessage,
-          initialMessage: this.typetest.initialMessage,
-          testStarted: this.typetest.testStarted,
-          testFinished: this.typetest.testFinished,
-          startedAt: this.typetest.startedAt,
-          finishedAt: this.typetest.finishedAt,
-          result: {...this.typetest.result}
-        })
-      .then(res => {
-        console.log('res', res);
-        this.router.navigate(['result', res.id]);
-      });
   }
 
   stopTest() {

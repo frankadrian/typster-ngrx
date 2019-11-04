@@ -13,6 +13,8 @@ import {TypeTestResultComponent} from './type-test-result/type-test-result.compo
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {environment} from '../environments/environment';
+import {EffectsModule} from '@ngrx/effects';
+import {TypetestEffectsService} from './effects/typetest-effects.service';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import {environment} from '../environments/environment';
     AppRoutingModule,
     FormsModule,
     StoreModule.forRoot(reducers, {metaReducers}),
+    EffectsModule.forRoot([TypetestEffectsService]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     BrowserAnimationsModule,
