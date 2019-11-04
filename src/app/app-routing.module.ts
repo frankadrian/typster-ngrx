@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {WelcomeComponent} from './welcome/welcome.component';
+import {WelcomeComponent} from './components/welcome/welcome.component';
 
 const routes: Routes = [
   {
@@ -8,7 +8,7 @@ const routes: Routes = [
     component: WelcomeComponent
   },
 
-  { path: 'typetest', loadChildren: () => import('../typetest/typetest.module').then(m => m.TypetestModule) },
+  { path: 'typetest', loadChildren: () => import('./modules/typetest/typetest.module').then(m => m.TypetestModule) },
   { path: '**', redirectTo: '' }
 ];
 
