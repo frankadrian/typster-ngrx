@@ -1,14 +1,12 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {TypeTestComponent} from './type-test/type-test.component';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+
 import {TypeTestResultComponent} from './type-test-result/type-test-result.component';
 import {TypetestResultResolverService} from './type-test-result/typetest-result-resolver.service';
+import {TypeTestComponent} from './type-test/type-test.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: TypeTestComponent
-  },
+  {path: '', component: TypeTestComponent},
   {
     path: 'result/:typetest',
     component: TypeTestResultComponent,
@@ -16,12 +14,11 @@ const routes: Routes = [
       typetest: TypetestResultResolverService
     }
   },
-
-  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class TypetestRoutingModule {
+}

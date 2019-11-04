@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TypeTestComponent } from './type-test.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {StoreModule} from '@ngrx/store';
-import {metaReducers, reducers} from '../reducers';
+import {metaReducers, reducers} from '../store/reducers';
 
 describe('TypeTestComponent', () => {
   let component: TypeTestComponent;

@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import {Subscription, timer} from 'rxjs';
-import {TypeTestState} from '../reducers/typetest.reducer';
 import {Store} from '@ngrx/store';
-import {State} from '../reducers';
-import {startTest, stopTest, userInput} from '../actions/typetest.actions';
+import {getTestState} from '../store/reducers';
+import {startTest, stopTest, userInput} from '../store/actions/typetest.actions';
+import {TestState} from '../store/reducers/typetest.reducer';
 
 @Component({
   selector: 'app-type-test',
@@ -13,16 +13,19 @@ import {startTest, stopTest, userInput} from '../actions/typetest.actions';
 })
 export class TypeTestComponent implements OnDestroy {
 
-  typetest: TypeTestState;
+  typetest: TestState;
   subscribeTimer = 10;
   private typetestSubscription: Subscription;
   private timeLeft = this.subscribeTimer - 1;
 
   private timer: Subscription;
 
-  constructor(private store: Store<State>) {
-      this.typetestSubscription = this.store.select('typetest')
-      .subscribe(typetest => this.typetest = typetest);
+  constructor(private store: Store<TestState>) {
+    this.typetestSubscription = this.store.select(getTestState)
+      .subscribe(typetest => {
+        console.log('type', typetest);
+        this.typetest = typetest;
+      });
   }
 
   userInput($event) {
@@ -69,7 +72,6 @@ export class TypeTestComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.timer.unsubscribe();
     this.typetestSubscription.unsubscribe();
   }
 

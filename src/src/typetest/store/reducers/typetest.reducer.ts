@@ -21,7 +21,7 @@ export interface Result {
   accuracy: number;
 }
 
-export interface TypeTestState {
+export interface TestState {
   message?: Word[];
   userMessage: string;
   initialMessage: string;
@@ -52,7 +52,7 @@ function generateMessage(words): Word[] {
 
 }
 
-export const initalTypeTestState: TypeTestState = {
+export const initalTypeTestState: TestState = {
   testStarted: false,
   testFinished: false,
   startedAt: undefined,
@@ -66,7 +66,7 @@ export const initalTypeTestState: TypeTestState = {
   }
 };
 
-function calculateWPM(state: TypeTestState, noOfWords) {
+function calculateWPM(state: TestState, noOfWords) {
   const now = new Date();
   const seconds = (now.getTime() - state.startedAt.getTime()) / 1000;
   // calculate wpm
@@ -75,7 +75,7 @@ function calculateWPM(state: TypeTestState, noOfWords) {
   return state;
 }
 
-function calculateAccuracy(state: TypeTestState, noOfWords) {
+function calculateAccuracy(state: TestState, noOfWords) {
   const validWords = state.message.filter(word => word.isValid).length;
 
   state.result.accuracy = (validWords / noOfWords);
@@ -134,6 +134,6 @@ const typetestReducer = createReducer(
   })
 );
 
-export function reducer(state: TypeTestState | undefined, action: Action) {
+export function reducer(state: TestState | undefined, action: Action) {
   return typetestReducer(state, action);
 }

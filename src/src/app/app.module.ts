@@ -4,30 +4,25 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {StoreModule} from '@ngrx/store';
-import {reducers, metaReducers} from './reducers';
 import {FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatDialogModule, MatIconModule, MatToolbarModule} from '@angular/material';
-import {TypeTestComponent} from './type-test/type-test.component';
-import {TypeTestResultComponent} from './type-test-result/type-test-result.component';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {environment} from '../environments/environment';
+import {environment} from '../../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
-import {TypetestEffectsService} from './effects/typetest-effects.service';
-
+import { WelcomeComponent } from './welcome/welcome.component';
 @NgModule({
   declarations: [
     AppComponent,
-    TypeTestComponent,
-    TypeTestResultComponent
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    StoreModule.forRoot(reducers, {metaReducers}),
-    EffectsModule.forRoot([TypetestEffectsService]),
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     BrowserAnimationsModule,

@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
-import {TypeTestState} from './reducers/typetest.reducer';
+import {TestState} from './store/reducers/typetest.reducer';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {first, map} from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TypetestService {
 
   constructor(private db: AngularFirestore) {
@@ -13,7 +11,7 @@ export class TypetestService {
 
 
   get(id) {
-    return this.db.doc<TypeTestState>('results/' + id)
+    return this.db.doc<TestState>('results/' + id)
       .valueChanges()
       .pipe(map(res => {
         return res;
@@ -21,8 +19,8 @@ export class TypetestService {
   }
 
 
-  add(typetest: TypeTestState) {
-    return this.db.collection<TypeTestState>('results')
+  add(typetest: TestState) {
+    return this.db.collection<TestState>('results')
       .add(
         {
           userMessage: typetest.userMessage,
