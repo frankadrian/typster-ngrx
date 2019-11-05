@@ -11,9 +11,7 @@
               *ngFor="let word of typetest.message"><span class="letter"
                                                           [ngClass]="{isValid: letter.isValid, isInvalid: !letter.isValid && word.isPast}"
                                                           *ngFor="let letter of word.letters">{{letter.letter}}</span><span>&nbsp;</span></span>
-
     </div>
-
 
     <div class="input" contenteditable="true"
          (input)="userInput($event)"

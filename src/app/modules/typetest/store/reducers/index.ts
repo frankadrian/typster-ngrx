@@ -19,5 +19,3 @@ export const reducers: ActionReducerMap<TypeTestState> = {
 
 export const getTypeTestState = createFeatureSelector<TypeTestState>('test');
 
-
-export const getTestState = createSelector(getTypeTestState, (state: TypeTestState) => state.test);

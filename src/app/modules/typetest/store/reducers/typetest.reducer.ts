@@ -1,6 +1,7 @@
 import {Action, createReducer, on} from '@ngrx/store';
 
 import * as TypeTestActions from '../actions/typetest.actions';
+import {Observable, timer} from 'rxjs';
 
 const randomWords = require('random-words');
 
@@ -22,6 +23,7 @@ export interface Result {
 }
 
 export interface TestState {
+  timer?: Observable<number>|null;
   message?: Word[];
   userMessage: string;
   initialMessage: string;
@@ -53,6 +55,7 @@ function generateMessage(words): Word[] {
 }
 
 export const initalTypeTestState: TestState = {
+  timer: null,
   testStarted: false,
   testFinished: false,
   startedAt: undefined,
@@ -127,10 +130,10 @@ const typetestReducer = createReducer(
     return Object.assign({}, state, {userMessage});
   }),
   on(TypeTestActions.startTest, state => {
-    return Object.assign({}, state, {startedAt: new Date(), testStarted: true});
+    return Object.assign({}, state, {startedAt: new Date(), testStarted: true, timer: timer(0, 1000)});
   }),
   on(TypeTestActions.stopTest, state => {
-    return Object.assign({}, state, {finishedAt: new Date(), testFinished: true});
+    return Object.assign({}, state, {finishedAt: new Date(), testFinished: true });
   })
 );
 

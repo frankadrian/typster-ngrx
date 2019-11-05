@@ -9,7 +9,6 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 export class WelcomeComponent implements OnInit {
 
   constructor() { }
-
   ngOnInit() {
   }
 

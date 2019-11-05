@@ -5,8 +5,9 @@ import {concatMap, tap, withLatestFrom} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {stopTest} from '../actions/typetest.actions';
 import {select, Store} from '@ngrx/store';
-import {getTestState, TypeTestState} from '../reducers';
+import {TypeTestState} from '../reducers';
 import {Router} from '@angular/router';
+import {getTestState} from '../selectors';
 
 @Injectable()
 export class TypetestEffectsService {
