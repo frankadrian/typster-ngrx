@@ -23,7 +23,7 @@ export interface Result {
 }
 
 export interface TestState {
-  timer?: Observable<number>|null;
+  timer?: Observable<number> | null;
   message?: Word[];
   userMessage: string;
   initialMessage: string;
@@ -34,7 +34,9 @@ export interface TestState {
   result: Result;
 }
 
-const initialRandomWords = randomWords({exactly: 100});
+const numberOfWords = 100;
+
+const initialRandomWords = randomWords({exactly: numberOfWords});
 
 function generateMessage(words): Word[] {
   const wordsOb = [];
@@ -66,8 +68,19 @@ export const initalTypeTestState: TestState = {
   result: new class implements Result {
     wpm = 0;
     accuracy = 1;
-  }
+  }()
 };
+
+function getInitialState(testString): TestState {
+  return Object.assign({}, initalTypeTestState, {
+    message: generateMessage(testString),
+    initialMessage: testString.join(' '),
+    result: new class implements Result {
+      wpm = 0;
+      accuracy = 1;
+    }()
+  });
+}
 
 function calculateWPM(state: TestState, noOfWords) {
   const now = new Date();
@@ -100,7 +113,7 @@ function compareWords(word: Word, userWord) {
 }
 
 const typetestReducer = createReducer(
-  initalTypeTestState,
+  getInitialState(initialRandomWords),
   on(TypeTestActions.userInput, (state, {userMessage}) => {
     const userMessageArray = userMessage.split(' ');
     const noOfWords = userMessageArray.length;
@@ -133,7 +146,11 @@ const typetestReducer = createReducer(
     return Object.assign({}, state, {startedAt: new Date(), testStarted: true, timer: timer(0, 1000)});
   }),
   on(TypeTestActions.stopTest, state => {
-    return Object.assign({}, state, {finishedAt: new Date(), testFinished: true });
+    return Object.assign({}, state, {finishedAt: new Date(), testFinished: true});
+  }),
+  on(TypeTestActions.resetTest, state => {
+    const newTestString = randomWords({exactly: numberOfWords});
+    return Object.assign({}, getInitialState(newTestString));
   })
 );
 
