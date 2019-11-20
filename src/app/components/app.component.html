@@ -1,20 +1,78 @@
+<div class="app-container">
 
-<mat-toolbar color="primary">
-  <a mat-button routerLink="/">
-    typestar
-  </a>
+  <mat-toolbar color="primary">
 
-  <a mat-button routerLink="/typetest">
-    Test yourself!
-  </a>
+    <!-- Sidenav activate -->
+    <div class="sidenav-content">
+      <button type="button" mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
 
-  <a routerLinkActive="active" mat-button routerLink="/results"
-     >
-    <mat-icon>keyboard_arrow_up</mat-icon>
-    <span>Leader Board</span>
-  </a>
-
-</mat-toolbar>
+      <button type="button"
+              routerLink="/"
+              mat-button
+              (click)="sidenav.close()">
+        Typster
+    </button>
 
 
-<router-outlet></router-outlet>
+    </div>
+
+  </mat-toolbar>
+
+
+  <mat-sidenav-container>
+
+    <mat-sidenav mode="over" hasBackdrop="true" opened="false" #sidenav class="sidenav-container">
+
+      <div class="sidenav-header">
+        <h4>
+           typestar
+        </h4>
+        <hr>
+      </div>
+
+
+      <div class="sidenavmenu-container">
+        <button mat-button
+                routerLink="/typetest"
+                routerLinkActive="active"
+                (click)="sidenav.close()">
+          Test yourself!
+        </button>
+
+        <button mat-button
+                routerLink="/results"
+                routerLinkActive="active"
+                (click)="sidenav.close()">
+          <mat-icon>keyboard_arrow_up</mat-icon>
+          <span>Leader Board</span>
+        </button>
+
+      </div>
+
+      <div class="sidenavmenu-container end">
+
+        <hr>
+        <button mat-button (click)="sidenav.close()">
+          <mat-icon class="black material-icons-outlined">account_circle</mat-icon>
+          <span>Some Item</span>
+        </button>
+
+        <button mat-button (click)="sidenav.close()">
+          <mat-icon class="black">lock_outline</mat-icon>
+          <span>Some Item</span>
+        </button>
+
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+      <router-outlet></router-outlet>
+
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+
+</div>

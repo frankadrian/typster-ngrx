@@ -9,7 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
   MatButtonModule,
   MatDialogModule,
-  MatIconModule,
+  MatIconModule, MatSidenavModule,
   MatToolbarModule
 } from '@angular/material';
 import {AngularFireModule} from '@angular/fire';
@@ -40,7 +40,9 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
     MatDialogModule,
     MatToolbarModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatSidenavModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
