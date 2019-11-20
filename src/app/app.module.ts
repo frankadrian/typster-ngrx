@@ -7,7 +7,7 @@ import {StoreModule} from '@ngrx/store';
 import {FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
-  MatButtonModule,
+  MatButtonModule, MatCardModule,
   MatDialogModule,
   MatIconModule, MatSidenavModule,
   MatToolbarModule
@@ -41,7 +41,8 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatCardModule
 
   ],
   providers: [],
