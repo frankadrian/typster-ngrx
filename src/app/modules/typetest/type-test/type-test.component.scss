@@ -25,19 +25,25 @@
     }
   }
 
-  .input {
-    margin-top: 20px;
-    border: 1px solid bisque;
-
-    padding: 10px 5px;
-    border-radius: 2px;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
   .spacer {
     margin-top: 20px;
   }
+}
+
+#type-test-input{
+  margin-top: 20px;
+  border: 1px solid bisque;
+
+  padding: 10px 5px;
+  border-radius: 2px;
+
+  &:focus {
+    outline: none;
+  }
+
+}
+
+#type-test-input[placeholder]:empty:before {
+  content: attr(placeholder);
+  color: #6e6e6e;
 }

@@ -13,9 +13,11 @@
                                                           *ngFor="let letter of word.letters">{{letter.letter}}</span><span>&nbsp;</span></span>
     </div>
 
-    <div class="input" contenteditable="true"
+    <div id="type-test-input"
+         contenteditable="true"
+         placeholder="Start typing to begin the test"
          (input)="userInput($event)"
-         (focus)="focus($event)">Start typing here to begin the test
+         (focus)="focus($event)">
     </div>
 
     <div class="spacer"></div>
