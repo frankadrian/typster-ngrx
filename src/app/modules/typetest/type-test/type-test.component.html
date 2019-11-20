@@ -1,8 +1,7 @@
-<div style="text-align:center">
-  <h1>
-    Test your typing speed right now
-  </h1>
-</div>
+<mat-card>
+
+  <mat-card-title>Start your typing test</mat-card-title>
+
 <div class="typetest-container">
 
     <div class="message">
@@ -15,17 +14,24 @@
 
     <div id="type-test-input"
          contenteditable="true"
-         placeholder="Start typing to begin the test"
+         placeholder="Start typing here to begin the test"
          (input)="userInput($event)"
          (focus)="focus($event)">
     </div>
 
-    <div class="spacer"></div>
-    <div class="time">Time: {{subscribeTimer}}</div>
-    <div>Accuracy: {{typetest.result.accuracy}}</div>
-    <div>WPM: {{typetest.result.wpm}}</div>
+
 </div>
 
 
-<button (click)="stopTest()">stop</button>
+  <mat-card-actions align="start" *ngIf="typetest.testStarted">
+    <button mat-button (click)="pauseTest()">Pause</button>
+    <button mat-button (click)="stopTest()">Stop</button>
+  </mat-card-actions>
 
+</mat-card>
+
+<mat-card *ngIf="typetest.testStarted">
+  <div>Time: {{subscribeTimer}}</div>
+  <div>Accuracy: {{typetest.result.accuracy}}</div>
+  <div>WPM: {{typetest.result.wpm}}</div>
+</mat-card>

@@ -10,6 +10,7 @@ import {reducers} from './store/reducers';
 import {EffectsModule} from '@ngrx/effects';
 import {TypetestEffectsService} from './store/effects/typetest-effects.service';
 import {TypetestResultResolverService} from './type-test-result/typetest-result-resolver.service';
+import {MatButtonModule, MatCardModule} from '@angular/material';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {TypetestResultResolverService} from './type-test-result/typetest-result-
     TypetestRoutingModule,
     StoreModule.forFeature('test', reducers),
     EffectsModule.forFeature([TypetestEffectsService]),
-
+    MatCardModule,
+    MatButtonModule
   ]
 })
 export class TypetestModule {

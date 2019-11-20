@@ -53,6 +53,9 @@ export class TypeTestComponent implements OnDestroy, OnInit {
   stopTest() {
     this.store.dispatch(stopTest());
   }
+  pauseTest() {
+    // ttodo this.store.dispatch(stopTest());
+  }
 
   focus($event) {
     if (!this.typetest.testStarted) {
