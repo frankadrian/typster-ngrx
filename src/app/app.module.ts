@@ -1,6 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
+import {reducers, CustomSerializer} from './store';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './components/app.component';
 import {StoreModule} from '@ngrx/store';
@@ -16,8 +17,10 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
-import { WelcomeComponent } from './components/welcome/welcome.component';
+import {WelcomeComponent} from './components/welcome/welcome.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,8 +30,9 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(reducers),
     EffectsModule.forRoot([]),
+    StoreRouterConnectingModule.forRoot(),
     // Instrumentation must be imported after importing StoreModule (config is optional)
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
@@ -45,7 +49,10 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
     MatCardModule
 
   ],
-  providers: [],
+  providers: [{
+    provide: RouterStateSerializer,
+    useClass: CustomSerializer
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
