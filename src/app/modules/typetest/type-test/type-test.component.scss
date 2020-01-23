@@ -1,36 +1,40 @@
-.typetest-container {
-  max-width: 400px;
-  margin: 0 auto;
+.time {
+  border: grey 1px solid;
+  padding: 10px;
+  font-size: 24px;
+  border-radius: 5px;
+}
+.timer{
+  line-height: 50px;
+}
 
-  .message {
-    height: 200px;
-    overflow: scroll;
-    word-break: break-word;
-    padding: 0 6px;
+.message {
+  width: 50%;
+  overflow: scroll;
+  word-break: break-word;
 
-    .word {
-      float: left;
+  .word {
+    float: left;
 
-      &.isActive {
-        color: chocolate;
+    &.isActive {
+      color: chocolate;
+    }
+
+    .letter {
+      &.isValid {
+        color: #0f8000;
       }
-      .letter {
-        &.isValid {
-          color: #0f8000;
-        }
-        &.isInvalid {
-          color: #ff1600;
-        }
+
+      &.isInvalid {
+        color: #ff1600;
       }
     }
   }
-
 }
 
-#type-test-input{
-  margin-top: 20px;
+#type-test-input {
+  width: 50%;
   border: 1px solid bisque;
-
   padding: 10px 5px;
   border-radius: 2px;
 
