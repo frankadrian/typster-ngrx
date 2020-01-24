@@ -2,10 +2,10 @@
 
   <mat-card-title>Your test starts when you type in the input below.</mat-card-title>
 
-  <div class="timer">
-      <span class="time">
-        90
-      </span>
+  <div class="results" [ngClass]="{disabled: !typetest.testStarted}">
+    <span class="result">90</span>
+    <span class="result">{{typetest.result.accuracy | percent}}</span>
+    <span class="result">{{typetest.result.wpm | number:'1.0-1' }} WPM</span>
   </div>
 
   <div fxLayout="row" fxLayoutAlign="space-evenly">
