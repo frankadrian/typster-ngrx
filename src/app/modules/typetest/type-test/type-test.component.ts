@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {getTestState, getTimerObservable} from '../store';
@@ -16,7 +16,7 @@ export class TypeTestComponent implements OnDestroy, OnInit {
   typetest: TestState;
   subscribeTimer = 0;
   // how long the typetest should be in seconds
-  private maxTime = 10;
+  maxTime = 60;
   private typetestSubscription: Subscription;
 
 
@@ -35,8 +35,16 @@ export class TypeTestComponent implements OnDestroy, OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.typetestSubscription.unsubscribe();
+  }
+
+  private stopTest() {
+    this.store.dispatch(stopTest());
+  }
   userInput($event) {
     const userMessage = $event.target.textContent;
+    console.log('usermesas', userMessage)
     if (!this.typetest.testStarted) {
       this.startTest();
     }
@@ -47,19 +55,6 @@ export class TypeTestComponent implements OnDestroy, OnInit {
       console.log('preventing');
       $event.preventDefault();
       $event.stopPropagation();
-    }
-  }
-
-  stopTest() {
-    this.store.dispatch(stopTest());
-  }
-  pauseTest() {
-    // ttodo this.store.dispatch(stopTest());
-  }
-
-  focus($event) {
-    if (!this.typetest.testStarted) {
-      $event.target.textContent = '';
     }
   }
 
@@ -77,9 +72,4 @@ export class TypeTestComponent implements OnDestroy, OnInit {
         }
       });
   }
-
-  ngOnDestroy(): void {
-    this.typetestSubscription.unsubscribe();
-  }
-
 }

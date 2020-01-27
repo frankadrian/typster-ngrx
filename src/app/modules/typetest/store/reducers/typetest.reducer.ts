@@ -5,16 +5,13 @@ import {Observable, timer} from 'rxjs';
 
 const randomWords = require('random-words');
 
+const LETTERS_PER_WORD = 5;
+
 export interface Letter {
   letter: string;
-  isValid: boolean;
-}
-
-export interface Word {
-  letters: Letter[];
   isActive: boolean;
   isValid: boolean;
-  isPast: boolean;
+  userLetter: string;
 }
 
 export interface Result {
@@ -24,7 +21,7 @@ export interface Result {
 
 export interface TestState {
   timer?: Observable<number> | null;
-  message?: Word[];
+  message?: Letter[];
   userMessage: string;
   initialMessage: string;
   testStarted: boolean;
@@ -36,24 +33,20 @@ export interface TestState {
 
 const numberOfWords = 100;
 
-const initialRandomWords = randomWords({exactly: numberOfWords});
+const initialRandomWordsString = randomWords({exactly: numberOfWords}).join(' ');
 
-function generateMessage(words): Word[] {
-  const wordsOb = [];
-  words.forEach(word => {
-    const wordOb: Word = {isActive: false, letters: [], isPast: false, isValid: false};
-    word.split('').forEach(letter => {
-      const letterOb: Letter = {
-        letter,
-        isValid: false,
-      };
-      wordOb.letters.push(letterOb);
-    });
-    wordsOb.push(wordOb);
+function generateMessage(wordsString: string): Letter[] {
+  const lettersOb = [];
+  wordsString.split('').forEach((letter, key) => {
+    const letterOb: Letter = {
+      letter,
+      isValid: false,
+      userLetter: '',
+      isActive: key === 0 ? true : false
+    };
+    lettersOb.push(letterOb);
   });
-
-  return wordsOb;
-
+  return lettersOb;
 }
 
 export const initalTypeTestState: TestState = {
@@ -62,8 +55,8 @@ export const initalTypeTestState: TestState = {
   testFinished: false,
   startedAt: undefined,
   finishedAt: undefined,
-  message: generateMessage(initialRandomWords),
-  initialMessage: initialRandomWords.join(' '),
+  message: generateMessage(initialRandomWordsString),
+  initialMessage: initialRandomWordsString,
   userMessage: '',
   result: new class implements Result {
     wpm = 0;
@@ -74,7 +67,7 @@ export const initalTypeTestState: TestState = {
 function getInitialState(testString): TestState {
   return Object.assign({}, initalTypeTestState, {
     message: generateMessage(testString),
-    initialMessage: testString.join(' '),
+    initialMessage: testString,
     result: new class implements Result {
       wpm = 0;
       accuracy = 1;
@@ -92,54 +85,35 @@ function calculateWPM(state: TestState, noOfWords) {
 }
 
 function calculateAccuracy(state: TestState, noOfWords) {
-  const validWords = state.message.filter(word => word.isValid).length;
+  const validLetters = state.message.filter(letter => letter.isValid).length;
 
+  // 5 letters are one word
+  const validWords = validLetters / LETTERS_PER_WORD;
   state.result.accuracy = (validWords / noOfWords);
-
   return state;
 }
 
-function compareWords(word: Word, userWord) {
-  const wordArray = userWord ? userWord.trim().split('') : [];
-
-  wordArray.forEach((userLetter, index) => {
-    if (word.letters[index]) {
-      word.letters[index].isValid = word.letters[index].letter === userLetter;
-    }
-  });
-
-  return word.letters.every(letter => letter.isValid);
-
-}
-
 const typetestReducer = createReducer(
-  getInitialState(initialRandomWords),
+  getInitialState(initialRandomWordsString),
   on(TypeTestActions.userInput, (state, {userMessage}) => {
-    const userMessageArray = userMessage.split(' ');
-    const noOfWords = userMessageArray.length;
+    const userMessageArray = userMessage.split('');
+    const noOfWords = userMessageArray.length / LETTERS_PER_WORD;
 
-
-    state.message.map((word, index) => {
-        // set all words to inactive
-        word.isActive = false;
-        word.isPast = index < noOfWords - 1;
+    userMessageArray.forEach((letter, index) => {
+      if (letter === state.message[index].letter) {
+        state.message[index].isValid = true;
+      } else {
+        state.message[index].isValid = false;
       }
-    );
+      state.message[index].isActive = false;
+    });
 
+    // set next word active
+    state.message[userMessageArray.length].isActive = true;
 
-    // set only current word to active
-    state.message[noOfWords - 1].isActive = true;
+    state = calculateWPM(state, noOfWords);
+    state = calculateAccuracy(state, noOfWords);
 
-    if (noOfWords > 0) {
-
-      userMessageArray.map((word, index) => {
-        state.message[index].isValid = compareWords(state.message[index], word);
-      });
-
-      state = calculateWPM(state, noOfWords);
-      state = calculateAccuracy(state, noOfWords);
-
-    }
     return Object.assign({}, state, {userMessage});
   }),
   on(TypeTestActions.startTest, state => {
@@ -149,7 +123,7 @@ const typetestReducer = createReducer(
     return Object.assign({}, state, {finishedAt: new Date(), testFinished: true});
   }),
   on(TypeTestActions.resetTest, state => {
-    const newTestString = randomWords({exactly: numberOfWords});
+    const newTestString = randomWords({exactly: numberOfWords}).join(' ');
     return Object.assign({}, getInitialState(newTestString));
   })
 );

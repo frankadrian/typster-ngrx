@@ -11,8 +11,8 @@ import {EffectsModule} from '@ngrx/effects';
 import {TypetestEffectsService} from './store/effects/typetest-effects.service';
 import {TypetestResultResolverService} from './type-test-result/typetest-result-resolver.service';
 import {MatButtonModule, MatCardModule} from '@angular/material';
-import {MatGridListModule} from '@angular/material/grid-list';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -25,7 +25,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     StoreModule.forFeature('test', reducers),
     EffectsModule.forFeature([TypetestEffectsService]),
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ]
 })
 export class TypetestModule {

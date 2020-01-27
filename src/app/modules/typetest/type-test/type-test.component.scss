@@ -1,3 +1,7 @@
+mat-card {
+  margin: 10px 0;
+}
+
 .results {
   line-height: 50px;
 
@@ -19,26 +23,38 @@
 
 }
 
-.message {
-  width: 50%;
+#userInput {
+  position: absolute;
+  z-index: 10;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#message {
+  position: relative;
+  font-family: monospace;
+  font-size: 24px;
+  width: 80%;
   overflow: scroll;
   word-break: break-word;
 
-  .word {
-    float: left;
+  .letter {
+    &.isValid {
+      color: #0f8000;
+    }
 
     &.isActive {
       color: chocolate;
+
+      &:before {
+        position: absolute;
+        content: '_';
+      }
     }
 
-    .letter {
-      &.isValid {
-        color: #0f8000;
-      }
-
-      &.isInvalid {
-        color: #ff1600;
-      }
+    &.isInvalid {
+      color: #ff1600;
     }
   }
 }
