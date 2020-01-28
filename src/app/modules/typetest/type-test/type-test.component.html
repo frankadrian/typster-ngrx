@@ -1,20 +1,25 @@
 <mat-card>
   <mat-card-content>
-    <mat-icon>help_outline</mat-icon>
-    You will be redirected to the results page when the time is up!
+    <mat-card-title>Start typing to begin your test</mat-card-title>
+
+    <div fxLayout="row" fxLayoutAlign="flex-start center">
+      <mat-icon>help_outline</mat-icon>
+      You will be redirected to the results page when the time is up!
+    </div>
   </mat-card-content>
 </mat-card>
 <mat-card>
 
-  <mat-card-title>Start typing to begin your test</mat-card-title>
 
-  <div class="results" [ngClass]="{disabled: !typetest.testStarted}">
-    <span class="result">{{maxTime - subscribeTimer}} s</span>
-    <span class="result">{{typetest.result.accuracy | percent}}</span>
-    <span class="result">{{typetest.result.wpm | number:'1.0-1' }} WPM</span>
-  </div>
 
-  <div fxLayout="row" fxLayoutAlign="space-evenly">
+  <div fxLayout="column" fxLayoutAlign="flex-start center">
+
+    <div class="results" [ngClass]="{disabled: !typetest.testStarted}" fxLayoutAlign="space-between center">
+      <span><span class="label">Timer:</span><span class="result">{{maxTime - subscribeTimer}} s</span></span>
+      <span><span class="label">Speed:</span><span class="result">{{typetest.result.wpm | number:'1.0-1' }} WPM</span></span>
+      <span><span class="label">Accuracy:</span><span class="result">{{typetest.result.accuracy | percent}}</span></span>
+    </div>
+
     <div id="message">
 
       <div id="userInput" contenteditable="true"

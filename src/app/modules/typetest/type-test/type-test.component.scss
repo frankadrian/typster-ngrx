@@ -2,7 +2,12 @@ mat-card {
   margin: 10px 0;
 }
 
+$max-test-container-width: 850px;
+$test-container-width: 80%;
+
 .results {
+  max-width: $max-test-container-width;
+  width: $test-container-width;
   line-height: 50px;
 
   &.disabled {
@@ -21,6 +26,10 @@ mat-card {
     }
   }
 
+  .label {
+    color: #000;
+  }
+
 }
 
 #userInput {
@@ -35,7 +44,8 @@ mat-card {
   position: relative;
   font-family: monospace;
   font-size: 24px;
-  width: 80%;
+  max-width: $max-test-container-width;
+  width: $test-container-width;
   overflow: scroll;
   word-break: break-word;
 
