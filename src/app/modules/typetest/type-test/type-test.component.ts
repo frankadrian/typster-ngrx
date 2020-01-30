@@ -23,7 +23,6 @@ export class TypeTestComponent implements OnDestroy, OnInit {
   constructor(private store: Store<TestState>, private cd: ChangeDetectorRef) {
     this.typetestSubscription = this.store.select(getTestState)
       .subscribe(typetest => {
-        console.log('type', typetest);
         this.typetest = typetest;
         this.cd.markForCheck();
       });
@@ -44,7 +43,6 @@ export class TypeTestComponent implements OnDestroy, OnInit {
   }
   userInput($event) {
     const userMessage = $event.target.textContent;
-    console.log('usermesas', userMessage)
     if (!this.typetest.testStarted) {
       this.startTest();
     }

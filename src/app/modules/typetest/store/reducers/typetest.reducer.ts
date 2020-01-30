@@ -33,7 +33,7 @@ export interface TestState {
 
 const numberOfWords = 100;
 
-const initialRandomWordsString = randomWords({exactly: numberOfWords}).join(' ');
+const initialRandomWordsString = randomWords({exactly: numberOfWords}).join(String.fromCharCode(32));
 
 function generateMessage(wordsString: string): Letter[] {
   const lettersOb = [];
@@ -84,27 +84,22 @@ function calculateWPM(state: TestState, noOfWords) {
   return state;
 }
 
-function calculateAccuracy(state: TestState, noOfWords) {
+function calculateAccuracy(state: TestState, noOfLetters) {
   const validLetters = state.message.filter(letter => letter.isValid).length;
-
-  // 5 letters are one word
-  const validWords = validLetters / LETTERS_PER_WORD;
-  state.result.accuracy = (validWords / noOfWords);
+  state.result.accuracy = (validLetters / noOfLetters);
   return state;
 }
 
 const typetestReducer = createReducer(
   getInitialState(initialRandomWordsString),
   on(TypeTestActions.userInput, (state, {userMessage}) => {
+    // fix so spaces compare correctly 🤪
+    userMessage = userMessage.replace(String.fromCharCode(160), ' ');
     const userMessageArray = userMessage.split('');
     const noOfWords = userMessageArray.length / LETTERS_PER_WORD;
 
     userMessageArray.forEach((letter, index) => {
-      if (letter === state.message[index].letter) {
-        state.message[index].isValid = true;
-      } else {
-        state.message[index].isValid = false;
-      }
+      state.message[index].isValid = letter === state.message[index].letter;
       state.message[index].isActive = false;
     });
 
@@ -112,7 +107,7 @@ const typetestReducer = createReducer(
     state.message[userMessageArray.length].isActive = true;
 
     state = calculateWPM(state, noOfWords);
-    state = calculateAccuracy(state, noOfWords);
+    state = calculateAccuracy(state, userMessage.length);
 
     return Object.assign({}, state, {userMessage});
   }),
@@ -123,7 +118,7 @@ const typetestReducer = createReducer(
     return Object.assign({}, state, {finishedAt: new Date(), testFinished: true});
   }),
   on(TypeTestActions.resetTest, state => {
-    const newTestString = randomWords({exactly: numberOfWords}).join(' ');
+    const newTestString = randomWords({exactly: numberOfWords}).join(String.fromCharCode(32));
     return Object.assign({}, getInitialState(newTestString));
   })
 );
