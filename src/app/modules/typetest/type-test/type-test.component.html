@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="!typetest.testFinished" @slideInOut>
   <mat-card-content>
     <mat-card-title>Start typing to begin your test</mat-card-title>
 
@@ -8,19 +8,30 @@
     </div>
   </mat-card-content>
 </mat-card>
-<mat-card>
+<mat-card *ngIf="typetest.testFinished" @slideInOut>
+  <mat-card-title>Congratulations you completed the test.</mat-card-title>
 
+  <p>You can enter your name to appear on the Leaderboard</p>
+  <mat-form-field>
+    <input matInput placeholder="Your name" value="">
+  </mat-form-field>
+  <button mat-button>Save</button>
+
+</mat-card>
+<mat-card>
 
 
   <div fxLayout="column" fxLayoutAlign="flex-start center">
 
     <div class="results" [ngClass]="{disabled: !typetest.testStarted}" fxLayoutAlign="space-between center">
       <span><span class="label">Timer:</span><span class="result">{{maxTime - subscribeTimer}} s</span></span>
-      <span><span class="label">Speed:</span><span class="result">{{typetest.result.wpm | number:'1.0-1' }} WPM</span></span>
-      <span><span class="label">Accuracy:</span><span class="result">{{typetest.result.accuracy | percent}}</span></span>
+      <span><span class="label">Speed:</span><span class="result">{{typetest.result.wpm | number:'1.0-1' }}
+        WPM</span></span>
+      <span><span class="label">Accuracy:</span><span
+        class="result">{{typetest.result.accuracy | percent}}</span></span>
     </div>
 
-    <div id="message">
+    <div id="message" [ngClass]="{disabled: typetest.testFinished}">
 
       <div id="userInput" contenteditable="true"
            autofocus

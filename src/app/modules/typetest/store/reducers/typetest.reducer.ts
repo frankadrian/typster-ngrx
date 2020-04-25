@@ -17,6 +17,7 @@ export interface Letter {
 export interface Result {
   wpm: number;
   accuracy: number;
+  name?: string;
 }
 
 export interface TestState {
@@ -116,6 +117,9 @@ const typetestReducer = createReducer(
   }),
   on(TypeTestActions.stopTest, state => {
     return Object.assign({}, state, {finishedAt: new Date(), testFinished: true});
+  }),
+  on(TypeTestActions.saveUsername, (state, {name}) => {
+    return Object.assign({}, state, {result: {name}});
   }),
   on(TypeTestActions.resetTest, state => {
     const newTestString = randomWords({exactly: numberOfWords}).join(String.fromCharCode(32));

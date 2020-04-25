@@ -5,18 +5,30 @@ import {getTestState, getTimerObservable} from '../store';
 import {resetTest, startTest, stopTest, userInput} from '../store/actions/typetest.actions';
 import {TestState} from '../store/reducers/typetest.reducer';
 import {flatMap} from 'rxjs/operators';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-type-test',
   templateUrl: './type-test.component.html',
   styleUrls: ['./type-test.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({transform: 'translateY(100%)'}),
+        animate('200ms ease-in', style({transform: 'translateY(0%)'}))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in', style({transform: 'translateY(-100%)'}))
+      ])
+    ])
+  ]
 })
 export class TypeTestComponent implements OnDestroy, OnInit {
   typetest: TestState;
   subscribeTimer = 0;
   // how long the typetest should be in seconds
-  maxTime = 60;
+  maxTime =5;
   private typetestSubscription: Subscription;
 
 
