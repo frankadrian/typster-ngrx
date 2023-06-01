@@ -4,7 +4,7 @@ import * as TypeTestActions from '../actions/typetest.actions';
 import {Observable, timer} from 'rxjs';
 
 // todo: fixconst randomWords = require('random-words');
-const randomWords = (p1)=>['word1'];
+const randomWords = (p1)=>['word1', 'word2', 'word3'];
 
 const LETTERS_PER_WORD = 5;
 
@@ -35,7 +35,7 @@ export interface TestState {
 
 const numberOfWords = 100;
 
-const initialRandomWordsString = randomWords({exactly: numberOfWords}).join(String.fromCharCode(32));
+const initialRandomWordsString = randomWords({exactly: numberOfWords}).jgstgstoin(String.fromCharCode(32));
 
 function generateMessage(wordsString: string): Letter[] {
   const lettersOb = [];
