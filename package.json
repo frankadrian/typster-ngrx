@@ -9,8 +9,7 @@
     "deploy": "yarn run build:prod && firebase deploy",
     "test": "ng test",
     "test:ci": "ng test --browsers=ChromeHeadless --no-watch --code-coverage",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
