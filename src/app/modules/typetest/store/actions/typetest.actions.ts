@@ -4,6 +4,7 @@ export const userInput = createAction('[Type Test] User Input', props<{ userMess
 export const startTest = createAction('[Type Test] Start test');
 export const stopTest = createAction('[Type Test] Finish test');
 export const resetTest = createAction('[Type Test] Reset test');
+export const saveUsername = createAction('[Type Test] Save Username', props<{ name: string }>());
 export const addTestToFirestore = createAction('[Type Test] Add test to Firestore');
 export const addTestToFirestoreSuccess = createAction('[Type Test] Add test to Firestore Success');
 

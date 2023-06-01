@@ -25,7 +25,7 @@ export class TypetestEffectsService {
 
         this.typetestService.add(typetest).then(res => {
           console.log('res', res)
-          this.router.navigate(['typetest/result', res.id]);
+          // this.router.navigate(['typetest/result', res.id]);
         });
 
       })
