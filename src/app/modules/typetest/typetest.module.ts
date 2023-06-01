@@ -13,6 +13,8 @@ import {TypetestResultResolverService} from './type-test-result/typetest-result-
 import {MatButtonModule, MatCardModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatIconModule} from '@angular/material/icon';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatInputModule} from '@angular/material/input';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import {MatIconModule} from '@angular/material/icon';
     EffectsModule.forFeature([TypetestEffectsService]),
     MatCardModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatInputModule,
+    MatProgressSpinnerModule
   ]
 })
 export class TypetestModule {
