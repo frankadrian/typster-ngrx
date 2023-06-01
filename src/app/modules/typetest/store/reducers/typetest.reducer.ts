@@ -3,7 +3,8 @@ import {Action, createReducer, on} from '@ngrx/store';
 import * as TypeTestActions from '../actions/typetest.actions';
 import {Observable, timer} from 'rxjs';
 
-const randomWords = require('random-words');
+// todo: fixconst randomWords = require('random-words');
+const randomWords = (p1)=>['word1'];
 
 const LETTERS_PER_WORD = 5;
 
