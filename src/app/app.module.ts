@@ -13,13 +13,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {AngularFireModule} from '@angular/fire';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {  getFirestore, provideFirestore } from "@angular/fire/firestore"
 import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
 import {WelcomeComponent} from './components/welcome/welcome.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {RouterStateSerializer, StoreRouterConnectingModule, DefaultRouterStateSerializer} from '@ngrx/router-store';
+import {RouterStateSerializer, StoreRouterConnectingModule, FullRouterStateSerializer} from '@ngrx/router-store';
+import { initializeApp, provideFirebaseApp } from "@angular/fire/app"
 
 @NgModule({
   declarations: [
@@ -32,14 +32,14 @@ import {RouterStateSerializer, StoreRouterConnectingModule, DefaultRouterStateSe
     FormsModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([]),
-    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
+    StoreRouterConnectingModule.forRoot({ serializer: FullRouterStateSerializer }),
     // Instrumentation must be imported after importing StoreModule (config is optional)
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
     BrowserAnimationsModule,
     MatDialogModule,
     MatToolbarModule,

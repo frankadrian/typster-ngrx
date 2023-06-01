@@ -104,7 +104,6 @@
       }
     }
   },
-  "defaultProject": "typster-ngrx",
   "cli": {
     "packageManager": "yarn"
   },
