@@ -137,6 +137,9 @@
     }
   },
   "defaultProject": "typster-ngrx",
+  "cli": {
+    "packageManager": "yarn"
+  },
   "schematics": {
     "@schematics/angular": {
       "component": {
