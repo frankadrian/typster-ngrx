@@ -1,25 +1,13 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
-import { TypeTestResultComponent } from './type-test-result.component';
+import { TypeTestResultComponent } from "./type-test-result.component"
+import { MockBuilder, MockRender } from "ng-mocks"
+import { TypetestModule } from "../typetest.module"
 
 describe('TypeTestResultComponent', () => {
-  let component: TypeTestResultComponent;
-  let fixture: ComponentFixture<TypeTestResultComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TypeTestResultComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(() => MockBuilder(TypeTestResultComponent, TypetestModule))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TypeTestResultComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it("should create", () => {
+    const {point} = MockRender(TypeTestResultComponent)
+    expect(point.componentInstance).toBeTruthy()
+  })
 });

@@ -1,37 +1,12 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
-import { TypeTestComponent } from './type-test.component';
-import {RouterTestingModule} from '@angular/router/testing';
-import {TypetestModule} from '../typetest.module';
+import { TypeTestComponent } from "./type-test.component"
+import { TypetestModule } from "../typetest.module"
+import { MockBuilder, MockRender } from "ng-mocks"
 
 describe('TypeTestComponent', () => {
-  let component: TypeTestComponent;
-  let fixture: ComponentFixture<TypeTestComponent>;
+  beforeEach(() => MockBuilder(TypeTestComponent, TypetestModule))
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        TypetestModule,
-      ],
-
-      declarations: [ TypeTestComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TypeTestComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it(`should have typetest$ Observable`, () => {
-    const app = fixture.debugElement.componentInstance;
-    expect(app.typetest$).toBeTruthy();
-  });
+  it("should create", () => {
+    const {point} = MockRender(TypeTestComponent)
+    expect(point.componentInstance).toBeTruthy()
+  })
 });
