@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import {Observable} from 'rxjs';
 import {TestState} from '../store/reducers/typetest.reducer';
 import {TypetestService} from '../typetest.service';
 
 @Injectable()
-export class TypetestResultResolverService implements Resolve<TestState> {
+export class TypetestResultResolverService  {
   constructor(private dbService: TypetestService) {
   }
 
