@@ -12,11 +12,10 @@ export class TypetestService {
 
 
   get(id):Observable<TestState> {
-    // @ts-ignore
-    const docRef = doc<TestState>(collection(this.firestore, "results"), id)
-    // @ts-ignore
-    return docData<TestState>(docRef).pipe(map(res => {
-      return res;
+    const collectionRef =  collection(this.firestore, "results")
+    const docRef = doc(collectionRef, id)
+    return docData(docRef).pipe(map(res => {
+      return <TestState>res;
     }), first())
   }
 

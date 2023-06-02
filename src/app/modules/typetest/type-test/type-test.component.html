@@ -34,9 +34,9 @@
     <div id="message" [ngClass]="{disabled: typetest.testFinished}">
 
       <div id="userInput" contenteditable="true"
-           autofocus
+           #userInput
            tabindex="0"
-           (input)="userInput($event)">
+           (input)="onUserInput($event)">
       </div>
       <span class="letter"
             [ngClass]="{isActive: letter.isActive, isValid: letter.isValid, isInvalid: typetest.userMessage.length > i && !letter.isValid }"

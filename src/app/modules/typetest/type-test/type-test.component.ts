@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from "@angular/core"
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from "@angular/core"
 import { Subscription } from "rxjs"
 import { Store } from "@ngrx/store"
 import { getTestState, getTimerObservable } from "../store"
@@ -24,13 +33,13 @@ import { animate, style, transition, trigger } from "@angular/animations"
     ])
   ]
 })
-export class TypeTestComponent implements OnDestroy, OnInit {
+export class TypeTestComponent implements OnDestroy, OnInit , AfterViewInit{
   typetest: TestState
   subscribeTimer = 0
   // how long the typetest should be in seconds
   maxTime = 60
   private typetestSubscription: Subscription
-
+  @ViewChild('userInput') userInput: ElementRef<HTMLInputElement>;
 
   constructor(private store: Store<TestState>, private cd: ChangeDetectorRef) {
     this.typetestSubscription = this.store.select(getTestState)
@@ -50,11 +59,15 @@ export class TypeTestComponent implements OnDestroy, OnInit {
     this.typetestSubscription.unsubscribe()
   }
 
+  ngAfterViewInit(): void {
+    this.userInput.nativeElement.focus()
+  }
+
   private stopTest() {
     this.store.dispatch(stopTest())
   }
 
-  userInput($event) {
+  onUserInput($event) {
     const userMessage = $event.target.textContent
     if (!this.typetest.testStarted) {
       this.startTest()

@@ -1,9 +1,7 @@
 import { Action, createReducer, on } from "@ngrx/store"
-
 import * as TypeTestActions from "../actions/typetest.actions"
 import { Observable, timer } from "rxjs"
-
-const randomWords = require("random-words")
+import randomWords from "random-words"
 
 const LETTERS_PER_WORD = 5
 
@@ -118,7 +116,7 @@ const typetestReducer = createReducer(
   on(TypeTestActions.saveUsername, (state, {name}) => {
     return Object.assign({}, state, {result: {name}})
   }),
-  on(TypeTestActions.resetTest, state => {
+  on(TypeTestActions.resetTest, () => {
     const newTestString = randomWords({exactly: numberOfWords}).join(String.fromCharCode(32))
     return Object.assign({}, getInitialState(newTestString))
   })
