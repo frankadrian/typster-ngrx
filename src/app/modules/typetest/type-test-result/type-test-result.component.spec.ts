@@ -1,25 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TypeTestResultComponent } from "./type-test-result.component"
+import { MockBuilder, MockInstance, MockRender } from "ng-mocks"
+import { TypetestModule } from "../typetest.module"
+import { RouterTestingModule } from "@angular/router/testing"
+import { of } from "rxjs"
+import { ActivatedRoute } from "@angular/router"
+import { initalTypeTestState } from "../store/reducers/typetest.reducer"
 
-import { TypeTestResultComponent } from './type-test-result.component';
-
-describe('TypeTestResultComponent', () => {
-  let component: TypeTestResultComponent;
-  let fixture: ComponentFixture<TypeTestResultComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TypeTestResultComponent ]
-    })
-    .compileComponents();
-  }));
-
+describe("TypeTestResultComponent", () => {
+ MockInstance.scope()
   beforeEach(() => {
-    fixture = TestBed.createComponent(TypeTestResultComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    MockInstance(ActivatedRoute, "data", of({typetest: initalTypeTestState}))
+    return MockBuilder(TypeTestResultComponent, [TypetestModule, RouterTestingModule])
+  })
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  it("should create", () => {
+    const {point} = MockRender(TypeTestResultComponent)
+    expect(point.componentInstance).toBeTruthy()
+  })
+})

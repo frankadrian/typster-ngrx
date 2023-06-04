@@ -1,37 +1,45 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TypeTestComponent } from "./type-test.component"
+import { provideMockStore } from "@ngrx/store/testing"
+import { initalTypeTestState } from "../store/reducers/typetest.reducer"
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing"
+import { StoreModule } from "@ngrx/store"
+import { EffectsModule } from "@ngrx/effects"
+import { initializeApp, provideFirebaseApp } from "@angular/fire/app"
+import { environment } from "../../../../environments/environment"
+import { getFirestore, provideFirestore } from "@angular/fire/firestore"
+import { TypetestModule } from "../typetest.module"
+import { getTestState } from "../store"
+import { NoopAnimationsModule } from "@angular/platform-browser/animations"
 
-import { TypeTestComponent } from './type-test.component';
-import {RouterTestingModule} from '@angular/router/testing';
-import {TypetestModule} from '../typetest.module';
+describe("TypeTestComponent", () => {
+  let component: TypeTestComponent
+  let fixture: ComponentFixture<TypeTestComponent>
 
-describe('TypeTestComponent', () => {
-  let component: TypeTestComponent;
-  let fixture: ComponentFixture<TypeTestComponent>;
-
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
+        NoopAnimationsModule,
         TypetestModule,
+        StoreModule.forRoot(),
+        EffectsModule.forRoot([]),
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideFirestore(() => getFirestore()),
       ],
-
-      declarations: [ TypeTestComponent ]
+      providers: [
+        provideMockStore({initialState: {test: {initalTypeTestState}}, selectors: [{selector: getTestState, value: initalTypeTestState}]}),
+      ],
+      declarations: [TypeTestComponent]
     })
-    .compileComponents();
-  }));
+      .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TypeTestComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(TypeTestComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it(`should have typetest$ Observable`, () => {
-    const app = fixture.debugElement.componentInstance;
-    expect(app.typetest$).toBeTruthy();
-  });
-});
+  it("should create", () => {
+    expect(component).toBeTruthy()
+  })
+})

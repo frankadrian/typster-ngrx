@@ -1,11 +1,9 @@
-import {Action, createReducer, on} from '@ngrx/store';
+import { Action, createReducer, on } from "@ngrx/store"
+import * as TypeTestActions from "../actions/typetest.actions"
+import { Observable, timer } from "rxjs"
+import randomWords from "random-words"
 
-import * as TypeTestActions from '../actions/typetest.actions';
-import {Observable, timer} from 'rxjs';
-
-const randomWords = require('random-words');
-
-const LETTERS_PER_WORD = 5;
+const LETTERS_PER_WORD = 5
 
 export interface Letter {
   letter: string;
@@ -32,22 +30,22 @@ export interface TestState {
   result: Result;
 }
 
-const numberOfWords = 100;
+const numberOfWords = 100
 
-const initialRandomWordsString = randomWords({exactly: numberOfWords}).join(String.fromCharCode(32));
+const initialRandomWordsString = randomWords({exactly: numberOfWords}).join(String.fromCharCode(32))
 
 function generateMessage(wordsString: string): Letter[] {
-  const lettersOb = [];
-  wordsString.split('').forEach((letter, key) => {
+  const lettersOb = []
+  wordsString.split("").forEach((letter, key) => {
     const letterOb: Letter = {
       letter,
       isValid: false,
-      userLetter: '',
+      userLetter: "",
       isActive: key === 0 ? true : false
-    };
-    lettersOb.push(letterOb);
-  });
-  return lettersOb;
+    }
+    lettersOb.push(letterOb)
+  })
+  return lettersOb
 }
 
 export const initalTypeTestState: TestState = {
@@ -58,37 +56,34 @@ export const initalTypeTestState: TestState = {
   finishedAt: undefined,
   message: generateMessage(initialRandomWordsString),
   initialMessage: initialRandomWordsString,
-  userMessage: '',
+  userMessage: "",
   result: new class implements Result {
-    wpm = 0;
-    accuracy = 1;
+    wpm = 0
+    accuracy = 1
   }()
-};
+}
 
 function getInitialState(testString): TestState {
   return Object.assign({}, initalTypeTestState, {
     message: generateMessage(testString),
     initialMessage: testString,
     result: new class implements Result {
-      wpm = 0;
-      accuracy = 1;
+      wpm = 0
+      accuracy = 1
     }()
-  });
+  })
 }
 
 function calculateWPM(state: TestState, noOfWords) {
-  const now = new Date();
-  const seconds = (now.getTime() - state.startedAt.getTime()) / 1000;
+  const now = new Date()
+  const seconds = (now.getTime() - state.startedAt.getTime()) / 1000
   // calculate wpm
-  state.result.wpm = noOfWords / seconds * 60;
-
-  return state;
+  return noOfWords / seconds * 60
 }
 
 function calculateAccuracy(state: TestState, noOfLetters) {
-  const validLetters = state.message.filter(letter => letter.isValid).length;
-  state.result.accuracy = (validLetters / noOfLetters);
-  return state;
+  const validLetters = state.message.filter(letter => letter.isValid).length
+  return (validLetters / noOfLetters)
 }
 
 const typetestReducer = createReducer(
@@ -107,26 +102,26 @@ const typetestReducer = createReducer(
     // set next word active
     state.message[userMessageArray.length].isActive = true;
 
-    state = calculateWPM(state, noOfWords);
-    state = calculateAccuracy(state, userMessage.length);
+    state.result.wpm = calculateWPM(state, noOfWords);
+    state.result.accuracy = calculateAccuracy(state, userMessage.length);
 
     return Object.assign({}, state, {userMessage});
   }),
   on(TypeTestActions.startTest, state => {
-    return Object.assign({}, state, {startedAt: new Date(), testStarted: true, timer: timer(0, 1000)});
+    return Object.assign({}, state, {startedAt: new Date(), testStarted: true, timer: timer(0, 1000)})
   }),
   on(TypeTestActions.stopTest, state => {
-    return Object.assign({}, state, {finishedAt: new Date(), testFinished: true});
+    return Object.assign({}, state, {finishedAt: new Date(), testFinished: true})
   }),
   on(TypeTestActions.saveUsername, (state, {name}) => {
-    return Object.assign({}, state, {result: {name}});
+    return Object.assign({}, state, {result: {name}})
   }),
-  on(TypeTestActions.resetTest, state => {
-    const newTestString = randomWords({exactly: numberOfWords}).join(String.fromCharCode(32));
-    return Object.assign({}, getInitialState(newTestString));
+  on(TypeTestActions.resetTest, () => {
+    const newTestString = randomWords({exactly: numberOfWords}).join(String.fromCharCode(32))
+    return Object.assign({}, getInitialState(newTestString))
   })
-);
+)
 
 export function reducer(state: TestState | undefined, action: Action) {
-  return typetestReducer(state, action);
+  return typetestReducer(state, action)
 }

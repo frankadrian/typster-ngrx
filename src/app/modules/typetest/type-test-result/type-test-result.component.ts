@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Result, TestState} from '../store/reducers/typetest.reducer';
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core"
+import { ActivatedRoute } from "@angular/router"
+import { TestState } from "../store/reducers/typetest.reducer"
 
 @Component({
   selector: 'app-type-test-result',
@@ -9,7 +9,6 @@ import {Result, TestState} from '../store/reducers/typetest.reducer';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TypeTestResultComponent implements OnInit {
-
   typetestResults: TestState;
 
   constructor(private route: ActivatedRoute) {
@@ -17,8 +16,8 @@ export class TypeTestResultComponent implements OnInit {
 
   ngOnInit() {
     this.route.data
-      .subscribe((data: { typetest: TestState }) => {
-        this.typetestResults = data.typetest;
+      .subscribe(( { typetest}) => {
+        this.typetestResults = typetest;
       });
   }
 

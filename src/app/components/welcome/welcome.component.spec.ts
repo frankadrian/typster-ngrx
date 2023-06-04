@@ -1,25 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { WelcomeComponent } from "./welcome.component"
+import { MockBuilder, MockRender } from "ng-mocks"
+import { AppModule } from "../../app.module"
 
-import { WelcomeComponent } from './welcome.component';
+describe("WelcomeComponent", () => {
 
-describe('WelcomeComponent', () => {
-  let component: WelcomeComponent;
-  let fixture: ComponentFixture<WelcomeComponent>;
+  beforeEach(() => MockBuilder(WelcomeComponent, AppModule))
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ WelcomeComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(WelcomeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  it("should create", () => {
+    const {point} = MockRender(WelcomeComponent)
+    expect(point.componentInstance).toBeTruthy()
+  })
+})

@@ -1,25 +1,25 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser"
+import { NgModule } from "@angular/core"
 
-import {reducers, CustomSerializer} from './store';
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './components/app.component';
-import {StoreModule} from '@ngrx/store';
-import {FormsModule} from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {
-  MatButtonModule, MatCardModule,
-  MatDialogModule,
-  MatIconModule, MatSidenavModule,
-  MatToolbarModule
-} from '@angular/material';
-import {AngularFireModule} from '@angular/fire';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {environment} from '../environments/environment';
-import {EffectsModule} from '@ngrx/effects';
-import {WelcomeComponent} from './components/welcome/welcome.component';
-import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
+import { reducers, CustomSerializer } from "./store"
+import { AppRoutingModule } from "./app-routing.module"
+import { AppComponent } from "./components/app.component"
+import { StoreModule } from "@ngrx/store"
+import { FormsModule } from "@angular/forms"
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
+import { MatLegacyButtonModule as MatButtonModule } from "@angular/material/legacy-button"
+import { MatLegacyCardModule as MatCardModule } from "@angular/material/legacy-card"
+import { MatLegacyDialogModule as MatDialogModule } from "@angular/material/legacy-dialog"
+import { MatIconModule } from "@angular/material/icon"
+import { MatSidenavModule } from "@angular/material/sidenav"
+import { MatToolbarModule } from "@angular/material/toolbar"
+import { getFirestore, provideFirestore } from "@angular/fire/firestore"
+import { environment } from "../environments/environment"
+import { EffectsModule } from "@ngrx/effects"
+import { WelcomeComponent } from "./components/welcome/welcome.component"
+import { StoreDevtoolsModule } from "@ngrx/store-devtools"
+import { RouterStateSerializer, StoreRouterConnectingModule, FullRouterStateSerializer } from "@ngrx/router-store"
+import { initializeApp, provideFirebaseApp } from "@angular/fire/app"
 
 @NgModule({
   declarations: [
@@ -30,16 +30,20 @@ import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-s
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, {
+      runtimeChecks: {
+        strictStateImmutability: false
+      }
+    }),
     EffectsModule.forRoot([]),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({serializer: FullRouterStateSerializer}),
     // Instrumentation must be imported after importing StoreModule (config is optional)
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
     BrowserAnimationsModule,
     MatDialogModule,
     MatToolbarModule,

@@ -10,11 +10,12 @@ import {reducers} from './store/reducers';
 import {EffectsModule} from '@ngrx/effects';
 import {TypetestEffectsService} from './store/effects/typetest-effects.service';
 import {TypetestResultResolverService} from './type-test-result/typetest-result-resolver.service';
-import {MatButtonModule, MatCardModule} from '@angular/material';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatIconModule} from '@angular/material/icon';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatInputModule} from '@angular/material/input';
+import {MatLegacyProgressSpinnerModule as MatProgressSpinnerModule} from '@angular/material/legacy-progress-spinner';
+import {MatLegacyInputModule as MatInputModule} from '@angular/material/legacy-input';
 
 
 @NgModule({
