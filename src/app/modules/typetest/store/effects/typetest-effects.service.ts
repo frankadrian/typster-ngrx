@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
-import {TypetestService} from '../../typetest.service';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {concatMap, tap, withLatestFrom} from 'rxjs/operators';
-import {of} from 'rxjs';
-import {stopTest} from '../actions/typetest.actions';
-import {select, Store} from '@ngrx/store';
-import {TypeTestState} from '../reducers';
-import {Router} from '@angular/router';
-import {getTestState} from '../selectors';
+import { Injectable } from "@angular/core"
+import { TypetestService } from "../../typetest.service"
+import { Actions, createEffect, ofType } from "@ngrx/effects"
+import { concatMap, tap, withLatestFrom } from "rxjs/operators"
+import { of } from "rxjs"
+import { stopTest g} from "../actions/typetest.actions"
+import { select, Store } from "@ngrx/store"
+import { TypeTestState } from "../reducers"
+import { Router } from "@angular/router"
+import { getTestState } from "../selectors"
 
 @Injectable()
 export class TypetestEffectsService {
@@ -25,7 +25,7 @@ export class TypetestEffectsService {
 
         this.typetestService.add(typetest).then(res => {
           console.log('res', res)
-          // this.router.navigate(['typetest/result', res.id]);
+           this.router.navigate(['typetest/result', res.id]);
         });
 
       })
