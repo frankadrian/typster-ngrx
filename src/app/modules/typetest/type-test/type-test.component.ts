@@ -8,12 +8,11 @@ import {
   OnInit,
   ViewChild
 } from "@angular/core"
-import { Subscription } from "rxjs"
+import { mergeMap, Subscription } from "rxjs"
 import { Store } from "@ngrx/store"
 import { getTestState, getTimerObservable } from "../store"
 import { resetTest, startTest, stopTest, userInput } from "../store/actions/typetest.actions"
 import { TestState } from "../store/reducers/typetest.reducer"
-import { flatMap } from "rxjs/operators"
 import { animate, style, transition, trigger } from "@angular/animations"
 
 @Component({
@@ -33,26 +32,26 @@ import { animate, style, transition, trigger } from "@angular/animations"
     ])
   ]
 })
-export class TypeTestComponent implements OnDestroy, OnInit , AfterViewInit{
+export class TypeTestComponent implements OnDestroy, OnInit, AfterViewInit {
   typetest: TestState
   subscribeTimer = 0
   // how long the typetest should be in seconds
   maxTime = 60
   private typetestSubscription: Subscription
-  @ViewChild('userInput') userInput: ElementRef<HTMLInputElement>;
+  @ViewChild("userInput") userInput: ElementRef<HTMLInputElement>
 
   constructor(private store: Store<TestState>, private cd: ChangeDetectorRef) {
-    this.typetestSubscription = this.store.select(getTestState)
-      .subscribe(typetest => {
-        this.typetest = typetest
-        this.cd.markForCheck()
-      })
   }
 
   ngOnInit() {
-    if (this.typetest.testFinished) {
-      this.store.dispatch(resetTest())
-    }
+    this.typetestSubscription = this.store.select(getTestState)
+      .subscribe(typetest => {
+        this.typetest = typetest
+        if (this.typetest.testFinished) {
+          this.store.dispatch(resetTest())
+        }
+        this.cd.markForCheck()
+      })
   }
 
   ngOnDestroy(): void {
@@ -86,7 +85,7 @@ export class TypeTestComponent implements OnDestroy, OnInit , AfterViewInit{
     this.store.dispatch(startTest())
 
     const timerStoreSub = this.store.select(getTimerObservable)
-      .pipe(flatMap(timer$ => timer$))
+      .pipe(mergeMap(timer$ => timer$))
       .subscribe(time => {
         this.subscribeTimer = time
         this.cd.markForCheck()

@@ -16,8 +16,8 @@ export class TypeTestResultComponent implements OnInit {
 
   ngOnInit() {
     this.route.data
-      .subscribe((data: { typetest: TestState }) => {
-        this.typetestResults = data.typetest;
+      .subscribe(( { typetest}) => {
+        this.typetestResults = typetest;
       });
   }
 
