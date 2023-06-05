@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core"
 import { TestState } from "./store/reducers/typetest.reducer"
-import { addDoc, collection, doc, docData, Firestore, setDoc } from "@angular/fire/firestore"
+import { addDoc, collection, doc, docData, Firestore, updateDoc } from "@angular/fire/firestore"
 import { first, map } from "rxjs/operators"
 import { Observable } from "rxjs"
 
@@ -32,9 +32,13 @@ export class TypetestService {
     })
   }
 
-  setName(resultId: string, name: string) {
-    return setDoc(doc(this.firestore, "results", resultId), {
-      name
+  setName(typetest: TestState, name: string) {
+    console.log("typetest.result", typetest.result)
+    return updateDoc(doc(this.firestore, "results", typetest.id), {
+      result: {
+        ...typetest.result,
+        name
+      }
     })
   }
 

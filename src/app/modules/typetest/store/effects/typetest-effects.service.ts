@@ -38,7 +38,7 @@ export class TypetestEffectsService {
       )),
       switchMap(([action, typetest]) => {
 
-        return this.typetestService.setName(typetest.id, action.name).then((res) => {
+        return this.typetestService.setName(typetest, action.name).then((res) => {
 
           this.router.navigate(['leader-board']);
         })

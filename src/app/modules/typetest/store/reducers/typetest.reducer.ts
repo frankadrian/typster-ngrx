@@ -115,7 +115,7 @@ const typetestReducer = createReducer(
     return Object.assign({}, state, {finishedAt: new Date(), testFinished: true})
   }),
   on(TypeTestActions.saveUsername, (state, {name}) => {
-    return Object.assign({}, state, {result: {name}})
+    return Object.assign({}, state, {result: {...state.result, name}})
   }),
   on(TypeTestActions.saveTestId, (state, {id}) => {
     return Object.assign({}, state, {id: id})
