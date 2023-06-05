@@ -28,6 +28,7 @@ export interface TestState {
   startedAt: Date;
   finishedAt: Date;
   result: Result;
+  id?: string
 }
 
 const numberOfWords = 100
@@ -115,6 +116,9 @@ const typetestReducer = createReducer(
   }),
   on(TypeTestActions.saveUsername, (state, {name}) => {
     return Object.assign({}, state, {result: {name}})
+  }),
+  on(TypeTestActions.saveTestId, (state, {id}) => {
+    return Object.assign({}, state, {id: id})
   }),
   on(TypeTestActions.resetTest, () => {
     const newTestString = randomWords({exactly: numberOfWords}).join(String.fromCharCode(32))

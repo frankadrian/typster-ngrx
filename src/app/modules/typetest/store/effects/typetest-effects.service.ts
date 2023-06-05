@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core"
 import { TypetestService } from "../../typetest.service"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
-import { concatMap, tap, withLatestFrom } from "rxjs/operators"
+import { concatMap, switchMap, withLatestFrom } from "rxjs/operators"
 import { of } from "rxjs"
-import { stopTest } from "../actions/typetest.actions"
+import { saveTestId, saveUsername, stopTest } from "../actions/typetest.actions"
 import { select, Store } from "@ngrx/store"
 import { TypeTestState } from "../reducers"
 import { Router } from "@angular/router"
@@ -18,20 +18,33 @@ export class TypetestEffectsService {
       concatMap(action => of(action).pipe(
         withLatestFrom(this.store$.pipe(select(getTestState)))
       )),
-      tap(([action, typetest]) => {
+      switchMap(([action, typetest]) => {
 
-        console.log('action', action);
-        console.log('typetest', typetest);
-
-        //this.typetestService.add(typetest).then(res => {
+        return this.typetestService.add(typetest).then(({id}) => {
           //console.log('res', res)
-           //this.router.navigate(['typetest/result', res.id]);
-        //});
-
+          //this.router.navigate(['typetest/result', res.id]);
+          return saveTestId({id})
+        })
       })
     ),
-    { dispatch: false }
-  );
+  )
+
+
+  setTypetest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(saveUsername),
+      concatMap(action => of(action).pipe(
+        withLatestFrom(this.store$.pipe(select(getTestState)))
+      )),
+      switchMap(([action, typetest]) => {
+
+        return this.typetestService.setName(typetest.id, action.name).then((res) => {
+
+          this.router.navigate(['leader-board']);
+        })
+      })
+    ),{dispatch: false}
+  )
 
   constructor(
     private router: Router,

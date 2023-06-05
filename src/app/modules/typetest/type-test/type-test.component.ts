@@ -11,7 +11,7 @@ import {
 import { mergeMap, Subscription } from "rxjs"
 import { Store } from "@ngrx/store"
 import { getTestState, getTimerObservable } from "../store"
-import { startTest, stopTest, userInput } from "../store/actions/typetest.actions"
+import { saveUsername, startTest, stopTest, userInput } from "../store/actions/typetest.actions"
 import { TestState } from "../store/reducers/typetest.reducer"
 import { animate, style, transition, trigger } from "@angular/animations"
 import { environment } from "../../../../environments/environment"
@@ -99,5 +99,9 @@ export class TypeTestComponent implements OnDestroy, OnInit, AfterViewInit {
           timerStoreSub.unsubscribe()
         }
       })
+  }
+
+  saveName(value: string) {
+    this.store.dispatch(saveUsername({name: value}))
   }
 }

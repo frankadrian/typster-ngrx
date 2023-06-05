@@ -13,10 +13,10 @@
 
   <p>You can enter your name to appear on the Leaderboard</p>
   <mat-form-field>
-    <input matInput placeholder="Your name" value="">
+    <input matInput placeholder="Your name" value="" #name>
   </mat-form-field>
-  <button mat-button>Save</button>
-
+  <button mat-button (click)="saveName('')">Skip</button>
+  <button mat-button (click)="saveName(name.value)">Save</button>
 </mat-card>
 <mat-card>
 
