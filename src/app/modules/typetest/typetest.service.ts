@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core"
-import { TestState } from "./store/reducers/typetest.reducer"
 import { addDoc, collection, doc, docData, Firestore, updateDoc } from "@angular/fire/firestore"
 import { first, map } from "rxjs/operators"
 import { Observable } from "rxjs"
+import { TestState } from "../types/TestState"
 
 @Injectable()
 export class TypetestService {

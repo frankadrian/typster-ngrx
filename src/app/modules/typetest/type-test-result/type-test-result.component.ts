@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core"
 import { ActivatedRoute } from "@angular/router"
-import { TestState } from "../store/reducers/typetest.reducer"
+import { TestState } from "../../types/TestState"
 
 @Component({
   selector: 'app-type-test-result',

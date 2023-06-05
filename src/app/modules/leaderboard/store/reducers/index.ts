@@ -1,7 +1,8 @@
 import { isDevMode } from "@angular/core"
-import { ActionReducer, createReducer, MetaReducer, on } from "@ngrx/store"
-import { Result } from "../../../typetest/store/reducers/typetest.reducer"
+import { ActionReducer, createFeatureSelector, createReducer, MetaReducer, on } from "@ngrx/store"
 import { LeaderboardActions } from "../actions/load-leaderboard.actions"
+import { Result } from "../../../types/Result"
+import { TestState } from "../../../types/TestState"
 
 export const leaderboardFeatureKey = "leaderboard"
 
@@ -12,7 +13,7 @@ export interface Leaders {
 
 export interface LeaderboardState {
   isLoading: boolean
-  data: unknown[]
+  data: TestState[]
 }
 
 const initalState: LeaderboardState = {
@@ -26,7 +27,7 @@ export const reducers: ActionReducer<LeaderboardState> = createReducer(
   }),
   on(LeaderboardActions.loadLeaderboardsSuccess, (state, action) => {
     console.log("tod: action", action)
-    return {...state, isLoading: false}
+    return {...state, isLoading: false, data: action.data}
   }),
   on(LeaderboardActions.loadLeaderboardsFailure, (state, action) => {
     return {...state, isLoading: false}
@@ -35,3 +36,4 @@ export const reducers: ActionReducer<LeaderboardState> = createReducer(
 
 
 export const metaReducers: MetaReducer<LeaderboardState>[] = isDevMode() ? [] : []
+export const getLeaderboardState = createFeatureSelector<LeaderboardState>(leaderboardFeatureKey);

@@ -3,23 +3,21 @@ import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { map, switchMap } from "rxjs/operators"
 import { LeaderboardActions } from "../actions/load-leaderboard.actions"
 import { LeaderboardService } from "../../leaderboard.service"
+import { TestState } from "../../../types/TestState"
 
 
 @Injectable()
 export class LeaderboardEffects {
 
-
   fetchLeaderboard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LeaderboardActions.loadLeaderboards),
-      switchMap((action) => {
+      switchMap(() => {
         return this.leaderboardService.get().pipe(map((data) => {
-          console.log('data', data)
-           return LeaderboardActions.loadLeaderboardsSuccess({data: data})
+           return LeaderboardActions.loadLeaderboardsSuccess({data: data as TestState[]})
         }))
       })
     ),
-    {dispatch:false}
   )
 
 
