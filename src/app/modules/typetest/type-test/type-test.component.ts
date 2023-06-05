@@ -11,9 +11,10 @@ import {
 import { mergeMap, Subscription } from "rxjs"
 import { Store } from "@ngrx/store"
 import { getTestState, getTimerObservable } from "../store"
-import { resetTest, startTest, stopTest, userInput } from "../store/actions/typetest.actions"
+import { startTest, stopTest, userInput } from "../store/actions/typetest.actions"
 import { TestState } from "../store/reducers/typetest.reducer"
 import { animate, style, transition, trigger } from "@angular/animations"
+import { environment } from "../../../../environments/environment"
 
 @Component({
   selector: "app-type-test",
@@ -36,7 +37,7 @@ export class TypeTestComponent implements OnDestroy, OnInit, AfterViewInit {
   typetest: TestState
   subscribeTimer = 0
   // how long the typetest should be in seconds
-  maxTime = 60
+  maxTime = environment.maxTime
   private typetestSubscription: Subscription
   @ViewChild("userInput") userInput: ElementRef<HTMLInputElement>
 
@@ -48,7 +49,7 @@ export class TypeTestComponent implements OnDestroy, OnInit, AfterViewInit {
       .subscribe(typetest => {
         this.typetest = typetest
         if (this.typetest.testFinished) {
-          this.store.dispatch(resetTest())
+         //  this.store.dispatch(resetTest())
         }
         this.cd.markForCheck()
       })
@@ -68,20 +69,24 @@ export class TypeTestComponent implements OnDestroy, OnInit, AfterViewInit {
 
   onUserInput($event) {
     const userMessage = $event.target.textContent
+
+    if(this.typetest.testStarted && this.typetest.testFinished) {
+      console.log("preventing")
+      $event.preventDefault()
+      $event.stopPropagation()
+    }
+
     if (!this.typetest.testStarted) {
       this.startTest()
     }
 
     if (!this.typetest.testFinished) {
       this.store.dispatch(userInput({userMessage}))
-    } else {
-      console.log("preventing")
-      $event.preventDefault()
-      $event.stopPropagation()
     }
   }
 
   startTest() {
+    console.log("start test")
     this.store.dispatch(startTest())
 
     const timerStoreSub = this.store.select(getTimerObservable)

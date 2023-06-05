@@ -23,10 +23,10 @@ export class TypetestEffectsService {
         console.log('action', action);
         console.log('typetest', typetest);
 
-        this.typetestService.add(typetest).then(res => {
-          console.log('res', res)
-           this.router.navigate(['typetest/result', res.id]);
-        });
+        //this.typetestService.add(typetest).then(res => {
+          //console.log('res', res)
+           //this.router.navigate(['typetest/result', res.id]);
+        //});
 
       })
     ),
