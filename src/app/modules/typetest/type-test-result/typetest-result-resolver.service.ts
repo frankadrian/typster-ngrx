@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core"
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router"
 import { Observable } from "rxjs"
-import { TestState } from "../store/reducers/typetest.reducer"
 import { TypetestService } from "../typetest.service"
+import { TestState } from "../../types/TestState"
 
 @Injectable()
 export class TypetestResultResolverService  {

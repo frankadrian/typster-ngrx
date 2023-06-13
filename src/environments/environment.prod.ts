@@ -1,4 +1,5 @@
 export const environment = {
+  maxTime: 60,
   production: true,
   firebase: {
     apiKey: 'AIzaSyCKTaHZXrcMgZvmUc1P3LKcAceEAp8LRDc',

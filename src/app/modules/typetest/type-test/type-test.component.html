@@ -4,7 +4,7 @@
 
     <div fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon>help_outline</mat-icon>
-      You will be redirected to the results page when the time is up!
+      Your results will be shown when the time is up!
     </div>
   </mat-card-content>
 </mat-card>
@@ -13,10 +13,10 @@
 
   <p>You can enter your name to appear on the Leaderboard</p>
   <mat-form-field>
-    <input matInput placeholder="Your name" value="">
+    <input matInput placeholder="Your name" value="" #name>
   </mat-form-field>
-  <button mat-button>Save</button>
-
+  <button mat-button (click)="saveName('')">Skip</button>
+  <button mat-button (click)="saveName(name.value)">Save</button>
 </mat-card>
 <mat-card>
 

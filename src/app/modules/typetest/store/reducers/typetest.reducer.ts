@@ -1,37 +1,13 @@
 import { Action, createReducer, on } from "@ngrx/store"
 import * as TypeTestActions from "../actions/typetest.actions"
-import { Observable, timer } from "rxjs"
+import { timer } from "rxjs"
 import randomWords from "random-words"
+import { TestState } from "../../../types/TestState"
+import { Letter } from "../../../types/Letter"
+import { Result } from "../../../types/Result"
 
 const LETTERS_PER_WORD = 5
-
-export interface Letter {
-  letter: string;
-  isActive: boolean;
-  isValid: boolean;
-  userLetter: string;
-}
-
-export interface Result {
-  wpm: number;
-  accuracy: number;
-  name?: string;
-}
-
-export interface TestState {
-  timer?: Observable<number> | null;
-  message?: Letter[];
-  userMessage: string;
-  initialMessage: string;
-  testStarted: boolean;
-  testFinished: boolean;
-  startedAt: Date;
-  finishedAt: Date;
-  result: Result;
-}
-
 const numberOfWords = 100
-
 const initialRandomWordsString = randomWords({exactly: numberOfWords}).join(String.fromCharCode(32))
 
 function generateMessage(wordsString: string): Letter[] {
@@ -41,7 +17,7 @@ function generateMessage(wordsString: string): Letter[] {
       letter,
       isValid: false,
       userLetter: "",
-      isActive: key === 0 ? true : false
+      isActive: key === 0
     }
     lettersOb.push(letterOb)
   })
@@ -114,7 +90,10 @@ const typetestReducer = createReducer(
     return Object.assign({}, state, {finishedAt: new Date(), testFinished: true})
   }),
   on(TypeTestActions.saveUsername, (state, {name}) => {
-    return Object.assign({}, state, {result: {name}})
+    return Object.assign({}, state, {result: {...state.result, name}})
+  }),
+  on(TypeTestActions.saveTestId, (state, {id}) => {
+    return Object.assign({}, state, {id: id})
   }),
   on(TypeTestActions.resetTest, () => {
     const newTestString = randomWords({exactly: numberOfWords}).join(String.fromCharCode(32))
