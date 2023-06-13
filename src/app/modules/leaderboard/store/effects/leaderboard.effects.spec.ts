@@ -1,8 +1,9 @@
 import { TestBed } from "@angular/core/testing"
 import { provideMockActions } from "@ngrx/effects/testing"
-import { Observable } from "rxjs"
+import { Observable, of } from "rxjs"
 
 import { LeaderboardEffects } from "./leaderboard.effects"
+import { LeaderboardService } from "../../leaderboard.service"
 
 describe('LeaderboardEffects', () => {
   let actions$: Observable<unknown>;
@@ -12,7 +13,11 @@ describe('LeaderboardEffects', () => {
     TestBed.configureTestingModule({
       providers: [
         LeaderboardEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        {
+          provide: LeaderboardService,
+          useValue: {get: of([])}
+        }
       ]
     });
 

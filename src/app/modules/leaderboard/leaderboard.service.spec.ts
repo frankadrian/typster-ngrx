@@ -1,16 +1,17 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing"
 
-import { LeaderboardService } from './leaderboard.service';
+import { LeaderboardService } from "./leaderboard.service"
+import { Firestore } from "@angular/fire/firestore"
 
-describe('LeaderboardService', () => {
-  let service: LeaderboardService;
+describe("LeaderboardService", () => {
+  let service: LeaderboardService
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(LeaderboardService);
-  });
+    TestBed.configureTestingModule({providers: [{provide: Firestore, useValue: {}}]})
+    service = TestBed.inject(LeaderboardService)
+  })
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+  it("should be created", () => {
+    expect(service).toBeTruthy()
+  })
+})
