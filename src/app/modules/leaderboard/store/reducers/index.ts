@@ -16,14 +16,13 @@ const initalState: LeaderboardState = {
 }
 export const reducers: ActionReducer<LeaderboardState> = createReducer(
   initalState,
-  on(LeaderboardActions.loadLeaderboards, (state, action) => {
+  on(LeaderboardActions.loadLeaderboards, (state) => {
     return {...state, isLoading: true}
   }),
   on(LeaderboardActions.loadLeaderboardsSuccess, (state, action) => {
-    console.log("tod: action", action)
     return {...state, isLoading: false, data: action.data}
   }),
-  on(LeaderboardActions.loadLeaderboardsFailure, (state, action) => {
+  on(LeaderboardActions.loadLeaderboardsFailure, (state) => {
     return {...state, isLoading: false}
   })
 )

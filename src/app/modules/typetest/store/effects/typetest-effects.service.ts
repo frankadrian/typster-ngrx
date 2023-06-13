@@ -15,11 +15,15 @@ export class TypetestEffectsService {
   saveTypetest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(stopTest),
+
+
       concatMap(action => of(action).pipe(
-        withLatestFrom(this.store$.pipe(select(getTestState)))
+        withLatestFrom(this.store$.pipe(select(getTestState))),
       )),
+
       switchMap(([action, typetest]) => {
 
+        console.log("action", action)
         return this.typetestService.add(typetest).then(({id}) => {
           //console.log('res', res)
           //this.router.navigate(['typetest/result', res.id]);
