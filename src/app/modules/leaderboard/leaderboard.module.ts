@@ -13,7 +13,7 @@ import { LeaderboardEffects } from "./store/effects/leaderboard.effects"
   imports: [
     CommonModule,
     LeaderboardRoutingModule,
-    StoreModule.forFeature(fromLeaderboard.leaderboardFeatureKey, fromLeaderboard.reducers, { metaReducers: fromLeaderboard.metaReducers }),
+    StoreModule.forFeature(fromLeaderboard.leaderboardFeatureKey, fromLeaderboard.reducers, {metaReducers: fromLeaderboard.metaReducers}),
     EffectsModule.forFeature([LeaderboardEffects])
   ]
 })

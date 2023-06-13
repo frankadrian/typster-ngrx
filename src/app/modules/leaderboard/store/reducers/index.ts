@@ -1,19 +1,13 @@
 import { isDevMode } from "@angular/core"
 import { ActionReducer, createFeatureSelector, createReducer, MetaReducer, on } from "@ngrx/store"
 import { LeaderboardActions } from "../actions/load-leaderboard.actions"
-import { Result } from "../../../types/Result"
-import { TestState } from "../../../types/TestState"
+import { Leaders } from "../../Leaders.type"
 
 export const leaderboardFeatureKey = "leaderboard"
 
-export interface Leaders {
-  name: string
-  result: Result
-}
-
 export interface LeaderboardState {
   isLoading: boolean
-  data: TestState[]
+  data: Leaders[]
 }
 
 const initalState: LeaderboardState = {

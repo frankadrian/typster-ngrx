@@ -5,6 +5,10 @@ import { LeaderboardActions } from "../store/actions/load-leaderboard.actions"
 import { getLeaderboardState } from "../store/selectors/leaderboard.selectors"
 import { MatTableModule } from "@angular/material/table"
 import { TestState } from "../../types/TestState"
+import { DatePipe, NgIf } from "@angular/common"
+import { TimestampToDatePipe } from "../timestamp-to-date.pipe"
+import { MatTooltipModule } from "@angular/material/tooltip"
+import { MatLegacyCardModule } from "@angular/material/legacy-card"
 
 @Component({
   selector: "app-leaderboard",
@@ -14,11 +18,12 @@ import { TestState } from "../../types/TestState"
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatTableModule,
+    DatePipe, TimestampToDatePipe, MatTooltipModule, MatLegacyCardModule, NgIf
   ]
 })
 export class LeaderboardComponent implements OnInit {
   private subscription: Subscription
-  displayedColumns: string[] = ['position', 'name', 'accuracy', 'wpm'];
+  displayedColumns: string[] = ['no', 'name', 'accuracy', 'wpm', 'finished'];
 
   loading = false;
   leaders = []
@@ -32,9 +37,7 @@ export class LeaderboardComponent implements OnInit {
       .subscribe(({data, isLoading}) => {
         this.loading = isLoading
         this.leaders = data
-        console.log("data2", data)
         this.cd.markForCheck()
       })
   }
-
 }

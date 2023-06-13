@@ -32,8 +32,11 @@ export class TypetestService {
     })
   }
 
+  savePublicResult(typetest: TestState) {
+    return addDoc(collection(this.firestore, "public-results"), {...typetest.result, finishedAt: typetest.finishedAt})
+  }
+
   setName(typetest: TestState, name: string) {
-    console.log("typetest.result", typetest.result)
     return updateDoc(doc(this.firestore, "results", typetest.id), {
       result: {
         ...typetest.result,
@@ -41,6 +44,4 @@ export class TypetestService {
       }
     })
   }
-
-
 }

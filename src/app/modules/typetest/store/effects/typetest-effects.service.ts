@@ -3,7 +3,7 @@ import { TypetestService } from "../../typetest.service"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { concatMap, switchMap, withLatestFrom } from "rxjs/operators"
 import { of } from "rxjs"
-import { saveTestId, saveUsername, stopTest } from "../actions/typetest.actions"
+import { resetTest, saveTestId, saveUsername, stopTest } from "../actions/typetest.actions"
 import { select, Store } from "@ngrx/store"
 import { TypeTestState } from "../reducers"
 import { Router } from "@angular/router"
@@ -37,13 +37,11 @@ export class TypetestEffectsService {
         withLatestFrom(this.store$.pipe(select(getTestState)))
       )),
       switchMap(([action, typetest]) => {
-
-        return this.typetestService.setName(typetest, action.name).then((res) => {
-
-          this.router.navigate(['leader-board']);
-        })
+        if (action.name) {
+          return Promise.all([this.typetestService.setName(typetest, action.name), this.typetestService.savePublicResult(typetest)]).then(() => this.router.navigate(["leader-board"])).then(() => resetTest())
+        }
       })
-    ),{dispatch: false}
+    )
   )
 
   constructor(

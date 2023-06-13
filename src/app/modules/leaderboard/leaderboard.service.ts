@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core"
-import { collection, collectionData, Firestore, orderBy, query, where } from "@angular/fire/firestore"
+import { collection, collectionData, Firestore, orderBy, query } from "@angular/fire/firestore"
 
 @Injectable({
   providedIn: "root"
@@ -10,15 +10,10 @@ export class LeaderboardService {
   }
 
   get() {
-
-    //
-    const q = query(
-      collection(this.firestore, "results"),
-      where("result.name", "!=", ""),
-      orderBy("result.name", "asc"),
-      orderBy("result.accuracy", "desc"),
-      orderBy("result.wpm", "desc")
-    )
-    return collectionData(q)
+    return collectionData(query(
+      collection(this.firestore, "public-results"),
+      orderBy("accuracy", "desc"),
+      orderBy("wpm", "desc")
+    ))
   }
 }
